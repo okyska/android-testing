@@ -13,10 +13,10 @@ class MonthlySpendingChartPresenter {
         return Arrays.asList(
                 new ChartSectionViewModel(new BigDecimal(2500), "Housing"),
                 new ChartSectionViewModel(new BigDecimal(1407), "Travel"),
-                new ChartSectionViewModel(new BigDecimal(1324), "Entertainment"),
+                new ChartSectionViewModel(new BigDecimal(1324), "Fun"),
                 new ChartSectionViewModel(new BigDecimal(1212), "Utilities"),
                 new ChartSectionViewModel(new BigDecimal(1150), "Dining Out"),
-                new ChartSectionViewModel(new BigDecimal(1121), "Transportation")
+                new ChartSectionViewModel(new BigDecimal(1121), "Transport")
         );
     }
 }
