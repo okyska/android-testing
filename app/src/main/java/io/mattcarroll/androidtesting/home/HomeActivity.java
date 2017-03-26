@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -20,6 +21,8 @@ import io.mattcarroll.androidtesting.login.LoginActivity;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private static final String TAG = "HomeActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +55,7 @@ public class HomeActivity extends AppCompatActivity
         super.onResume();
 
         if (!UserSession.getInstance().isLoggedIn()) {
+            Log.d(TAG, "User is not logged in. Launching LoginActivity.");
             launchLoginScreen();
         }
     }

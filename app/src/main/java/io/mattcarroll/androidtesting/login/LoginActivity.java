@@ -29,6 +29,8 @@ import io.mattcarroll.androidtesting.signup.SignUpActivity;
  */
 public class LoginActivity extends AppCompatActivity {
 
+    private static final int REQUEST_SIGN_UP = 1000;
+
     /**
      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
@@ -83,6 +85,19 @@ public class LoginActivity extends AppCompatActivity {
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (REQUEST_SIGN_UP == requestCode) {
+            if (RESULT_OK == resultCode) {
+                finish();
+            } else {
+                // TODO:
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     /**
@@ -185,7 +200,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void launchSignUpScreen() {
         Intent signUpIntent = new Intent(this, SignUpActivity.class);
-        startActivity(signUpIntent);
+        startActivityForResult(signUpIntent, REQUEST_SIGN_UP);
     }
 
     /**

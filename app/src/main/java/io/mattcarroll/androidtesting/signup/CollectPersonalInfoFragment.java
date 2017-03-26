@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import io.mattcarroll.androidtesting.Bus;
 import io.mattcarroll.androidtesting.R;
 
 /**
@@ -24,5 +25,17 @@ public class CollectPersonalInfoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_collect_personal_info, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        view.findViewById(R.id.button_next).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bus.getBus().post(new NextScreenRequestedEvent());
+            }
+        });
     }
 }
