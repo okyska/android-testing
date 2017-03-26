@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import io.mattcarroll.androidtesting.R;
+import io.mattcarroll.androidtesting.transactions.TransactionListFragment;
 import io.mattcarroll.androidtesting.usersession.UserSession;
 import io.mattcarroll.androidtesting.login.LoginActivity;
 
@@ -48,6 +49,13 @@ public class HomeActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        if (null == savedInstanceState) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.framelayout_container, TransactionListFragment.newInstance())
+                    .commit();
+        }
     }
 
     @Override
