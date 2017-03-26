@@ -7,4 +7,6 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="transaction_icon_size">56dp</dimen>
     <dimen name="transaction_list_item_padding_horizontal">16dp</dimen>
+    <dimen name="cell_padding_vertical">16dp</dimen>
+    <dimen name="cell_padding_horizontal">32dp</dimen>
 </resources>
