@@ -19,4 +19,5 @@ public class MonthlySpendingActivity extends AppCompatActivity {
         chartPresenter = new MonthlySpendingChartPresenter();
         monthlySpendingChart.setViewModels(chartPresenter.presentChart());
     }
+
 }
