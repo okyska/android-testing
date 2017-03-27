@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import io.mattcarroll.androidtesting.R;
+import io.mattcarroll.androidtesting.creditcardanalysis.CreditCardAnalysisFragment;
 import io.mattcarroll.androidtesting.transactions.TransactionListFragment;
 import io.mattcarroll.androidtesting.usersession.UserSession;
 import io.mattcarroll.androidtesting.login.LoginActivity;
@@ -53,7 +54,7 @@ public class HomeActivity extends AppCompatActivity
         if (null == savedInstanceState) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.framelayout_container, TransactionListFragment.newInstance())
+                    .add(R.id.framelayout_container, CreditCardAnalysisFragment.newInstance())
                     .commit();
         }
     }
