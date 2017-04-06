@@ -7,12 +7,10 @@
     tools:context="io.mattcarroll.androidtesting.spending.MonthlySpendingActivity"
     >
 
-    <io.mattcarroll.androidtesting.spending.MonthlySpendingChart
-        android:id="@+id/monthly_spending_chart"
-        android:layout_width="360dp"
-        android:layout_height="360dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         />
 
 </RelativeLayout>

@@ -21,7 +21,6 @@ import java.util.List;
 import io.mattcarroll.androidtesting.R;
 
 public class MonthlySpendingChart extends FrameLayout {
-
     private static final float SPLICE_SPACE = 3f;
     private static final float SELECTION_SHIFT = 5f;
     private static final float VALUE_TEXT_SIZE = 11f;
