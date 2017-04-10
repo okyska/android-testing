@@ -1,6 +1,5 @@
 package io.mattcarroll.androidtesting.signup;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -8,10 +7,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 
 import io.mattcarroll.androidtesting.Bus;
 import io.mattcarroll.androidtesting.R;
-import io.mattcarroll.androidtesting.usersession.UserSession;
 
 /**
  * Select a username and password.
@@ -23,6 +23,9 @@ public class SelectCredentialsFragment extends Fragment {
         return new SelectCredentialsFragment();
     }
 
+    private EditText emailEditText;
+    private EditText passwordEditText;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -32,6 +35,9 @@ public class SelectCredentialsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        emailEditText = (AutoCompleteTextView) view.findViewById(R.id.autocompletetextview_email);
+        passwordEditText = (EditText) view.findViewById(R.id.edittext_password);
 
         view.findViewById(R.id.button_sign_up).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,7 +63,26 @@ public class SelectCredentialsFragment extends Fragment {
     }
 
     private void signUp() {
-        // TODO:
-        Bus.getBus().post(new NextScreenRequestedEvent());
+        Bus.getBus().post(
+                new CredentialsSelectedEvent(
+                        new Credentials(
+                                emailEditText.getText().toString(),
+                                passwordEditText.getText().toString()
+                        )));
     }
+
+    static class CredentialsSelectedEvent {
+
+        private final Credentials credentials;
+
+        private CredentialsSelectedEvent(@NonNull Credentials credentials) {
+            this.credentials = credentials;
+        }
+
+        @NonNull
+        public Credentials getCredentials() {
+            return credentials;
+        }
+    }
+
 }

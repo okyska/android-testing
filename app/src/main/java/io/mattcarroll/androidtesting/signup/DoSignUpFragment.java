@@ -25,18 +25,25 @@ public class DoSignUpFragment extends Fragment {
 
     private static final String TAG = "DoSignUpFragment";
 
+    private static final String ARG_SIGN_UP_FORM = "sign_up_form";
     private static final int LOADER_LAUNCH_WAIT = 1000;
 
     @NonNull
-    public static DoSignUpFragment newInstance() {
-        return new DoSignUpFragment();
+    public static DoSignUpFragment newInstance(@NonNull SignUpForm signUpForm) {
+        Bundle args = new Bundle();
+        args.putBundle(ARG_SIGN_UP_FORM, signUpForm.toBundle());
+        DoSignUpFragment frag = new DoSignUpFragment();
+        frag.setArguments(args);
+        return frag;
     }
+
+    private SignUpForm signUpForm;
 
     private final LoaderManager.LoaderCallbacks<Void> launchWaitLoaderCallbacks = new LoaderManager.LoaderCallbacks<Void>() {
         @Override
         public Loader<Void> onCreateLoader(int id, Bundle args) {
             Log.d(TAG, "Creating LaunchLoader.");
-            return new SignUpLoader(getContext());
+            return new SignUpLoader(getContext(), signUpForm);
         }
 
         @Override
@@ -55,6 +62,8 @@ public class DoSignUpFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+
+        signUpForm = SignUpForm.fromBundle(getArguments().getBundle(ARG_SIGN_UP_FORM));
         waitAndThenCompleteSignUp();
     }
 
@@ -88,12 +97,27 @@ public class DoSignUpFragment extends Fragment {
     }
 
     private void onSignUpSuccessful() {
-        Bus.getBus().post(new NextScreenRequestedEvent());
+        Bus.getBus().post(new SignUpCompleteEvent(true));
+    }
+
+    static class SignUpCompleteEvent {
+
+        private final boolean isSuccessful;
+
+        private SignUpCompleteEvent(boolean isSuccessful) {
+            this.isSuccessful = isSuccessful;
+        }
+
+        public boolean isSuccessful() {
+            return this.isSuccessful;
+        }
+
     }
 
     private static class SignUpLoader extends AsyncTaskLoader<Void> {
-        public SignUpLoader(Context context) {
+        public SignUpLoader(Context context, @NonNull SignUpForm signUpForm) {
             super(context);
+            // TODO: process signUpForm
             forceLoad();
         }
 

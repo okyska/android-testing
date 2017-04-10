@@ -1,5 +1,6 @@
 package io.mattcarroll.androidtesting.signup;
 
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,10 +8,13 @@ import android.widget.BaseAdapter;
 import android.widget.CheckedTextView;
 import android.widget.TextView;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * List Adapter that offers a list of personal interests that can be selected.
  */
-public class InterestsListsAdapter extends BaseAdapter {
+class InterestsListsAdapter extends BaseAdapter {
 
     private final String[] interests = new String[] {
             "Snowboarding",
@@ -39,6 +43,19 @@ public class InterestsListsAdapter extends BaseAdapter {
     public void setChecked(int position, boolean isChecked) {
         this.isChecked[position] = isChecked;
         notifyDataSetChanged();
+    }
+
+    @NonNull
+    public Set<String> getCheckedItems() {
+        Set<String> checkedItems = new HashSet<>();
+
+        for (int i = 0; i < interests.length; ++i) {
+            if (this.isChecked[i]) {
+                checkedItems.add(interests[i]);
+            }
+        }
+
+        return checkedItems;
     }
 
     @Override
