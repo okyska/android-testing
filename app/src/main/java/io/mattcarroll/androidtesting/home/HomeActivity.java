@@ -25,6 +25,7 @@ public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = "HomeActivity";
+    private static final int REQUEST_CODE_LOGIN = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,9 +70,24 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_CODE_LOGIN:
+                if (RESULT_CANCELED == resultCode) {
+                    // User chose not to login.
+                    finish();
+                }
+                break;
+            default:
+                super.onActivityResult(requestCode, resultCode, data);
+                break;
+        }
+    }
+
     private void launchLoginScreen() {
         Intent loginIntent = new Intent(this, LoginActivity.class);
-        startActivity(loginIntent);
+        startActivityForResult(loginIntent, REQUEST_CODE_LOGIN);
     }
 
     @Override

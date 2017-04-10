@@ -2,9 +2,12 @@ package io.mattcarroll.androidtesting.signup;
 
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 
 import io.mattcarroll.androidtesting.Bus;
 import io.mattcarroll.androidtesting.R;
@@ -18,6 +21,9 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         if (null == savedInstanceState) {
             displayCollectPersonalInfoScreen();
@@ -36,6 +42,29 @@ public class SignUpActivity extends AppCompatActivity {
         super.onStop();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isBackBehaviorAllowed()) {
+            super.onBackPressed();
+        }
+    }
+
+    private boolean isBackBehaviorAllowed() {
+        Fragment visibleFragment = getSupportFragmentManager().findFragmentById(R.id.framelayout_container);
+        return !(visibleFragment instanceof DoSignUpFragment);
+    }
+
     public void onEventMainThread(@NonNull NextScreenRequestedEvent event) {
         Fragment visibleFragment = getSupportFragmentManager().findFragmentById(R.id.framelayout_container);
 
@@ -44,6 +73,8 @@ public class SignUpActivity extends AppCompatActivity {
         } else if (visibleFragment instanceof CollectInterestsFragment) {
             displaySelectCredentialsScreen();
         } else if (visibleFragment instanceof SelectCredentialsFragment) {
+            displayDoSignUpScreen();
+        } else if (visibleFragment instanceof DoSignUpFragment) {
             login();
             finishWithSuccess();
         }
@@ -51,24 +82,34 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void displayCollectPersonalInfoScreen() {
         CollectPersonalInfoFragment screen = CollectPersonalInfoFragment.newInstance();
-        doDisplayScreen(screen);
+        doDisplayScreen(screen, false);
     }
 
     private void displayCollectInterestsScreen() {
         CollectInterestsFragment screen = CollectInterestsFragment.newInstance();
-        doDisplayScreen(screen);
+        doDisplayScreen(screen, true);
     }
 
     private void displaySelectCredentialsScreen() {
         SelectCredentialsFragment screen = SelectCredentialsFragment.newInstance();
-        doDisplayScreen(screen);
+        doDisplayScreen(screen, true);
     }
 
-    private void doDisplayScreen(@NonNull Fragment fragment) {
-        getSupportFragmentManager()
+    private void displayDoSignUpScreen() {
+        DoSignUpFragment screen = DoSignUpFragment.newInstance();
+        doDisplayScreen(screen, false);
+    }
+
+    private void doDisplayScreen(@NonNull Fragment fragment, boolean addToBackStack) {
+        FragmentTransaction transaction = getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.framelayout_container, fragment)
-                .commit();
+                .replace(R.id.framelayout_container, fragment);
+
+        if (addToBackStack) {
+            transaction.addToBackStack(null);
+        }
+
+        transaction.commit();
     }
 
     private void login() {
