@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import java.util.Set;
+
 import io.mattcarroll.androidtesting.Bus;
 import io.mattcarroll.androidtesting.R;
 
@@ -48,7 +50,7 @@ public class CollectInterestsFragment extends Fragment {
         view.findViewById(R.id.button_next).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bus.getBus().post(new NextScreenRequestedEvent());
+                Bus.getBus().post(new SelectedInterestsCompleteEvent(adapter.getCheckedItems()));
             }
         });
     }
@@ -59,5 +61,19 @@ public class CollectInterestsFragment extends Fragment {
 
         // Update ActionBar title for this screen.
         getActivity().setTitle("Sign Up - Interests");
+    }
+
+    static class SelectedInterestsCompleteEvent {
+
+        private Set<String> selectedInterests;
+
+        private SelectedInterestsCompleteEvent(@NonNull Set<String> selectedInterests) {
+            this.selectedInterests = selectedInterests;
+        }
+
+        @NonNull
+        public Set<String> getSelectedInterests() {
+            return selectedInterests;
+        }
     }
 }
