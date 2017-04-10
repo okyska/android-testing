@@ -1,5 +1,6 @@
 package io.mattcarroll.androidtesting.signup;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -40,6 +41,14 @@ public class SelectCredentialsFragment extends Fragment {
                 }
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // Update ActionBar title for this screen.
+        getActivity().setTitle("Sign Up - Credentials");
     }
 
     private boolean areCredentialsValid() {
