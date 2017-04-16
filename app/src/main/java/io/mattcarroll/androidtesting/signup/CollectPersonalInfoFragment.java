@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,8 @@ public class CollectPersonalInfoFragment extends Fragment {
     private EditText stateEditText;
     private EditText zipEditText;
 
+    private final View.OnFocusChangeListener requiredFieldValidator = new RequiredFieldOnFocusChangeListener();
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -41,12 +44,24 @@ public class CollectPersonalInfoFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         firstNameEditText = (EditText) view.findViewById(R.id.edittext_first_name);
+        firstNameEditText.setOnFocusChangeListener(requiredFieldValidator);
+
         lastNameEditText = (EditText) view.findViewById(R.id.edittext_last_name);
+        lastNameEditText.setOnFocusChangeListener(requiredFieldValidator);
+
         addressLine1EditText = (EditText) view.findViewById(R.id.edittext_address_line_1);
+        addressLine1EditText.setOnFocusChangeListener(requiredFieldValidator);
+
         addressLine2EditText = (EditText) view.findViewById(R.id.edittext_address_line_2);
+
         cityEditText = (EditText) view.findViewById(R.id.edittext_address_city);
+        cityEditText.setOnFocusChangeListener(requiredFieldValidator);
+
         stateEditText = (EditText) view.findViewById(R.id.edittext_address_state);
+        stateEditText.setOnFocusChangeListener(requiredFieldValidator);
+
         zipEditText = (EditText) view.findViewById(R.id.edittext_address_zip);
+        zipEditText.setOnFocusChangeListener(requiredFieldValidator);
 
         view.findViewById(R.id.button_next).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,12 +82,52 @@ public class CollectPersonalInfoFragment extends Fragment {
     private void onNextSelected() {
         if (isInputValid()) {
             completePersonalInfoScreen();
+        } else {
+            getFirstInputWithError().requestFocus();
         }
     }
 
     private boolean isInputValid() {
-        // TODO: validate input
-        return true;
+        return TextUtils.isEmpty(firstNameEditText.getError())
+                && TextUtils.isEmpty(lastNameEditText.getError())
+                && TextUtils.isEmpty(addressLine1EditText.getError())
+                && TextUtils.isEmpty(addressLine2EditText.getError())
+                && TextUtils.isEmpty(cityEditText.getError())
+                && TextUtils.isEmpty(stateEditText.getError())
+                && TextUtils.isEmpty(zipEditText.getError());
+    }
+
+    @Nullable
+    private EditText getFirstInputWithError() {
+        if (!TextUtils.isEmpty(firstNameEditText.getError())) {
+            return firstNameEditText;
+        }
+
+        if (!TextUtils.isEmpty(lastNameEditText.getError())) {
+            return lastNameEditText;
+        }
+
+        if (!TextUtils.isEmpty(addressLine1EditText.getError())) {
+            return addressLine1EditText;
+        }
+
+        if (!TextUtils.isEmpty(addressLine2EditText.getError())) {
+            return addressLine2EditText;
+        }
+
+        if (!TextUtils.isEmpty(cityEditText.getError())) {
+            return cityEditText;
+        }
+
+        if (!TextUtils.isEmpty(stateEditText.getError())) {
+            return stateEditText;
+        }
+
+        if (!TextUtils.isEmpty(zipEditText.getError())) {
+            return zipEditText;
+        }
+
+        return null;
     }
 
     private void completePersonalInfoScreen() {

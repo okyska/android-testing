@@ -134,8 +134,9 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void login() {
-        // TODO: this is hack because sign up screen doesn't log user in yet. remove later.
-        UserSession.getInstance().setProfile("someuser", "somepass");
+        UserSession.getInstance().setProfile(
+                signUpForm.getCredentials().getUsername(),
+                signUpForm.getCredentials().getPassword());
     }
 
     private void finishWithSuccess() {
