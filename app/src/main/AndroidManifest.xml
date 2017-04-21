@@ -39,7 +39,7 @@
             >
         </activity>
         <activity
-            android:name=".spending.MonthlySpendingActivity"
+            android:name=".spending.MonthlySpendingFragment"
             />
     </application>
 
