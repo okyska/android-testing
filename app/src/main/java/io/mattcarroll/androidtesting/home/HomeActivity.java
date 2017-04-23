@@ -53,6 +53,7 @@ public class HomeActivity extends AppCompatActivity
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setCheckedItem(R.id.nav_credit_card_analysis);
         navigationView.setNavigationItemSelectedListener(this);
 
         if (null == savedInstanceState) {
