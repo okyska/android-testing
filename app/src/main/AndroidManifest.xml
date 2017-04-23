@@ -38,9 +38,6 @@
             android:theme="@style/AppTheme.NoActionBar"
             >
         </activity>
-        <activity
-            android:name=".spending.MonthlySpendingActivity"
-            />
     </application>
 
 </manifest>
