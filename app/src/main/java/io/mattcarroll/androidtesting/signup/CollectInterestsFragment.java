@@ -75,9 +75,9 @@ public class CollectInterestsFragment extends Fragment {
 
     private void showAlertToSelectInterests() {
         new AlertDialog.Builder(getActivity())
-                .setTitle("Select Interests")
-                .setMessage("Please select at least 1 interest.")
-                .setNeutralButton("Ok", null)
+                .setTitle(R.string.dialog_select_interests_title)
+                .setMessage(R.string.dialog_select_interests_body)
+                .setNeutralButton(R.string.button_ok, null)
                 .create()
                 .show();
     }

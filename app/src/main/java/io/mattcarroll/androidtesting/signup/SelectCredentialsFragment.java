@@ -45,7 +45,7 @@ public class SelectCredentialsFragment extends Fragment {
         passwordEditText = (EditText) view.findViewById(R.id.edittext_password);
         passwordEditText.setOnFocusChangeListener(requiredFieldValidator);
 
-        view.findViewById(R.id.button_sign_up).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.button_next).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onNextSelected();
@@ -62,10 +62,22 @@ public class SelectCredentialsFragment extends Fragment {
     }
 
     private void onNextSelected() {
+        validateAllInputs();
         if (areCredentialsValid()) {
             signUp();
         } else {
             getFirstInputWithError().requestFocus();
+        }
+    }
+
+    private void validateAllInputs() {
+        validateRequiredInput(emailEditText);
+        validateRequiredInput(passwordEditText);
+    }
+
+    private void validateRequiredInput(@NonNull EditText editText) {
+        if (editText.getText().length() == 0) {
+            editText.setError(getString(R.string.input_error_required));
         }
     }
 
