@@ -32,7 +32,7 @@ public class MonthlySpendingFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview_monthly_spending);
 
         chartPresenter = new MonthlySpendingChartPresenter();
         List<ChartSectionViewModel> chartSectionViewModels = chartPresenter.presentChart();
