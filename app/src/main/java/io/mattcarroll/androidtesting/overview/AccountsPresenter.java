@@ -37,7 +37,7 @@ class AccountsPresenter {
         String balanceAsString = currencyFormat.format(account.getBalance());
         String amountSpentAsString = currencyFormat.format(account.getAmountSpentThisMonth());
 
-        return new AccountViewModel(
-                account.getName(), lastFourDigits, balanceAsString, amountSpentAsString);
+        return new AccountViewModel(account.getAccountId(), account.getName(),
+                lastFourDigits, balanceAsString, amountSpentAsString);
     }
 }

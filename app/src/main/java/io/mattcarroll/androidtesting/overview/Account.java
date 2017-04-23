@@ -8,19 +8,27 @@ import java.math.BigDecimal;
  * Account data structure to be used until the domain model is developed.
  */
 public class Account {
+    private final String accountId;
     private final String displayName;
     private final String accountNumber;
     private final BigDecimal balance;
     private final BigDecimal amountSpentThisMonth;
 
-    public Account(@NonNull String displayName,
+    public Account(@NonNull String accountId,
+                   @NonNull String displayName,
                    @NonNull String accountNumber,
                    @NonNull BigDecimal balance,
                    @NonNull BigDecimal amountSpentThisMonth) {
+        this.accountId = accountId;
         this.displayName = displayName;
         this.accountNumber = accountNumber;
         this.balance = balance;
         this.amountSpentThisMonth = amountSpentThisMonth;
+    }
+
+    @NonNull
+    public String getAccountId() {
+        return accountId;
     }
 
     @NonNull
@@ -42,4 +50,5 @@ public class Account {
     public BigDecimal getAmountSpentThisMonth() {
         return amountSpentThisMonth;
     }
+
 }
