@@ -80,10 +80,26 @@ public class CollectPersonalInfoFragment extends Fragment {
     }
 
     private void onNextSelected() {
+        validateAllInputs();
         if (isInputValid()) {
             completePersonalInfoScreen();
         } else {
             getFirstInputWithError().requestFocus();
+        }
+    }
+
+    private void validateAllInputs() {
+        validateRequiredInput(firstNameEditText);
+        validateRequiredInput(lastNameEditText);
+        validateRequiredInput(addressLine1EditText);
+        validateRequiredInput(cityEditText);
+        validateRequiredInput(stateEditText);
+        validateRequiredInput(zipEditText);
+    }
+
+    private void validateRequiredInput(@NonNull EditText editText) {
+        if (editText.getText().length() == 0) {
+            editText.setError(getString(R.string.input_error_required));
         }
     }
 
