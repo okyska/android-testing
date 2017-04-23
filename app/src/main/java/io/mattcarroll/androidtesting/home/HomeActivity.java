@@ -2,11 +2,13 @@ package io.mattcarroll.androidtesting.home;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,10 +21,11 @@ import android.view.MenuItem;
 
 import io.mattcarroll.androidtesting.R;
 import io.mattcarroll.androidtesting.creditcardanalysis.CreditCardAnalysisFragment;
+import io.mattcarroll.androidtesting.overview.AccountsOverviewFragment;
 import io.mattcarroll.androidtesting.spending.MonthlySpendingFragment;
 import io.mattcarroll.androidtesting.transactions.TransactionListFragment;
-import io.mattcarroll.androidtesting.usersession.UserSession;
 import io.mattcarroll.androidtesting.login.LoginActivity;
+import io.mattcarroll.androidtesting.usersession.UserSession;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -30,12 +33,16 @@ public class HomeActivity extends AppCompatActivity
     private static final String TAG = "HomeActivity";
     private static final int REQUEST_CODE_LOGIN = 1000;
 
+    private final SparseArray<Fragment> navItemToFragmentMap = new SparseArray<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        initNavItemMap();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -52,16 +59,29 @@ public class HomeActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+        @IdRes int defaultNavItem = getDefaultNavItem();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setCheckedItem(R.id.nav_credit_card_analysis);
+        navigationView.setCheckedItem(defaultNavItem);
         navigationView.setNavigationItemSelectedListener(this);
 
         if (null == savedInstanceState) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.framelayout_container, CreditCardAnalysisFragment.newInstance())
+                    .add(R.id.framelayout_container, navItemToFragmentMap.get(defaultNavItem))
                     .commit();
         }
+    }
+
+    private void initNavItemMap() {
+        navItemToFragmentMap.put(R.id.nav_overview, AccountsOverviewFragment.newInstance());
+        navItemToFragmentMap.put(R.id.nav_credit_card_analysis, CreditCardAnalysisFragment.newInstance());
+        navItemToFragmentMap.put(R.id.nav_transactions, TransactionListFragment.newInstance());
+        navItemToFragmentMap.put(R.id.nav_monthly_spending, MonthlySpendingFragment.newInstance());
+    }
+
+    @IdRes
+    private int getDefaultNavItem() {
+        return R.id.nav_overview;
     }
 
     private void switchToFragment(@NonNull Fragment fragment) {
@@ -135,15 +155,10 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-        if (id == R.id.nav_credit_card_analysis) {
-            switchToFragment(CreditCardAnalysisFragment.newInstance());
-        } else if (id == R.id.nav_transactions) {
-            switchToFragment(TransactionListFragment.newInstance());
-        } else if (id == R.id.nav_monthly_spending) {
-            switchToFragment(MonthlySpendingFragment.newInstance());
+        Fragment selectedFragment = navItemToFragmentMap.get(id);
+        if (selectedFragment != null) {
+            switchToFragment(selectedFragment);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

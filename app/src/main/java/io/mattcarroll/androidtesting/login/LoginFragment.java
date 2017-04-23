@@ -6,6 +6,7 @@ import android.annotation.TargetApi;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -36,6 +37,7 @@ public class LoginFragment extends Fragment {
             "user@123.com:password", "bar@example.com:world"
     };
 
+    @NonNull
     public static LoginFragment newInstance() {
         return new LoginFragment();
     }

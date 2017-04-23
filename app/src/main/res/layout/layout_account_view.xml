@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:background="@drawable/account_view_background"
+    >
+
+    <TextView
+        android:id="@+id/textview_display_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:textSize="14sp"
+        android:textColor="@android:color/white"
+        android:textAllCaps="true"
+        android:gravity="right"
+        android:ellipsize="end"
+        tools:text="Chase Sapphire Reserve"
+        />
+
+    <TextView
+        android:id="@+id/textview_account_last_digits"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textview_display_name"
+        android:layout_alignParentRight="true"
+        android:fontFamily="monospace"
+        android:textSize="12sp"
+        android:textColor="@android:color/white"
+        tools:text="1337"
+        />
+
+    <TextView
+        android:id="@+id/textview_balance_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        android:textAllCaps="true"
+        android:text="@string/label_balance"
+        />
+
+    <TextView
+        android:id="@+id/textview_balance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textview_balance_label"
+        android:layout_alignLeft="@id/textview_balance_label"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        tools:text="$350.00"
+        />
+
+    <TextView
+        android:id="@+id/textview_spent_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        android:textAllCaps="true"
+        android:text="@string/label_spent_this_month"
+        />
+
+    <TextView
+        android:id="@+id/textview_amount_spent_this_month"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textview_spent_label"
+        android:layout_alignRight="@id/textview_spent_label"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        tools:text="$2324.25"
+        />
+
+</RelativeLayout>

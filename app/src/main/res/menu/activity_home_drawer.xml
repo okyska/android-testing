@@ -3,9 +3,14 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_overview"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Overview"
+            />
+        <item
             android:id="@+id/nav_credit_card_analysis"
             android:icon="@drawable/ic_menu_camera"
-            android:title="Dashboard"
+            android:title="Credit Cards"
             />
         <item
             android:id="@+id/nav_transactions"
