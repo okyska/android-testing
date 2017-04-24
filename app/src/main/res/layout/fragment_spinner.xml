@@ -11,12 +11,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     >
 
-    <ProgressBar
-        style="?android:attr/progressBarStyleLarge"
-        android:id="@+id/progress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        />
+    <!-- We include ProgressBar so that we can replace it with a non-animated resource in tests -->
+    <include layout="@layout/include_progressbar" />
 
 </LinearLayout>
