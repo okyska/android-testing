@@ -5,18 +5,19 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.test.espresso.Espresso;
+import android.support.test.espresso.idling.CountingIdlingResource;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
-import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import io.mattcarroll.androidtesting.BuildConfig;
 import io.mattcarroll.androidtesting.Bus;
 import io.mattcarroll.androidtesting.R;
-import io.mattcarroll.androidtesting.SplashActivity;
 
 /**
  * Signs up with the backend service and displays a spinner while sign-up is in progress.
@@ -114,21 +115,53 @@ public class DoSignUpFragment extends Fragment {
 
     }
 
-    private static class SignUpLoader extends AsyncTaskLoader<Void> {
-        public SignUpLoader(Context context, @NonNull SignUpForm signUpForm) {
+    private static class SignUpLoader extends Loader<Void> {
+
+        private final CountingIdlingResource mCountingIdlingResource;
+        private final SignUpForm mSignUpForm;
+
+        SignUpLoader(Context context, @NonNull SignUpForm signUpForm) {
             super(context);
-            // TODO: process signUpForm
+            mSignUpForm = signUpForm;
+
+            if (BuildConfig.DEBUG) {
+                mCountingIdlingResource = new CountingIdlingResource("signup");
+                Espresso.registerIdlingResources(mCountingIdlingResource);
+            } else {
+                mCountingIdlingResource = null;
+            }
+
             forceLoad();
         }
 
         @Override
-        public Void loadInBackground() {
-            try {
-                Thread.sleep(4000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        protected void onForceLoad() {
+            super.onForceLoad();
+            executeTask();
+        }
+
+        private void executeTask() {
+            if (null != mCountingIdlingResource) {
+                mCountingIdlingResource.increment();
             }
-            return null;
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(4000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    if (null != mCountingIdlingResource) {
+                        mCountingIdlingResource.decrement();
+                    }
+
+                    deliverResult(null);
+                }
+            }).start();
         }
     }
+
 }

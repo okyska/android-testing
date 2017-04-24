@@ -4,7 +4,9 @@ package io.mattcarroll.androidtesting;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.espresso.Espresso;
 import android.support.test.espresso.NoActivityResumedException;
+import android.support.test.espresso.idling.CountingIdlingResource;
 import android.support.test.espresso.matcher.BoundedMatcher;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -62,7 +64,7 @@ public class EspressoSignUpTest {
         scrollToAndPressNext();
 
         // Ensure that this Activity destroyed itself upon successful completion of sign up.
-        assertTrue(activityRule.getActivity().isDestroyed());
+        assertTrue(activityRule.getActivity().isFinishing());
     }
 
     @Test
