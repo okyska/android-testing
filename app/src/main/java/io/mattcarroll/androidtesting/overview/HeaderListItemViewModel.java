@@ -1,13 +1,12 @@
-package io.mattcarroll.androidtesting.transactions;
+package io.mattcarroll.androidtesting.overview;
 
-import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 /**
  * ViewModel that presents the header for a Transaction category.
  */
-public class HeaderListItemViewModel {
+class HeaderListItemViewModel {
 
     private final String title;
     private final String subtitle;

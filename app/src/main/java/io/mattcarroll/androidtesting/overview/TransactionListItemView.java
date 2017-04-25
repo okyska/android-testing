@@ -1,8 +1,7 @@
-package io.mattcarroll.androidtesting.transactions;
+package io.mattcarroll.androidtesting.overview;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
-import android.support.v4.text.TextUtilsCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -15,7 +14,7 @@ import io.mattcarroll.androidtesting.R;
 /**
  * View that renders a Transaction as a list item.
  */
-public class TransactionListItemView extends FrameLayout {
+class TransactionListItemView extends FrameLayout {
 
     private ImageView mIconImageView;
     private TextView mTitleTextView;

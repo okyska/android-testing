@@ -23,8 +23,6 @@ import java.util.List;
 import java.util.Set;
 
 import io.mattcarroll.androidtesting.R;
-import io.mattcarroll.androidtesting.transactions.TransactionListAdapter;
-import io.mattcarroll.androidtesting.transactions.TransactionListPresenter;
 
 /**
  * Display an overview of the user's accounts.

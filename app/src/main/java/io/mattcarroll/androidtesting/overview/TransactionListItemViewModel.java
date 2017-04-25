@@ -1,4 +1,4 @@
-package io.mattcarroll.androidtesting.transactions;
+package io.mattcarroll.androidtesting.overview;
 
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
 /**
  * ViewModel that presents a Transaction in a list.
  */
-public class TransactionListItemViewModel {
+class TransactionListItemViewModel {
 
     @DrawableRes
     private final Integer icon;

@@ -1,4 +1,4 @@
-package io.mattcarroll.androidtesting.transactions;
+package io.mattcarroll.androidtesting.overview;
 
 import android.support.annotation.NonNull;
 
@@ -11,7 +11,7 @@ import io.mattcarroll.androidtesting.R;
 /**
  * Presenter that shows a list of Transactions
  */
-public class TransactionListPresenter {
+class TransactionListPresenter {
 
     private List<Object> viewModels;
 
