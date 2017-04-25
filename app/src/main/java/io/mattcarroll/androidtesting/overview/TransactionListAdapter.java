@@ -1,4 +1,4 @@
-package io.mattcarroll.androidtesting.transactions;
+package io.mattcarroll.androidtesting.overview;
 
 import android.support.annotation.NonNull;
 import android.view.View;
@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * {@code ListAdapter} that presents financial transaction.
  */
-public class TransactionListAdapter extends BaseAdapter {
+class TransactionListAdapter extends BaseAdapter {
 
     private static final int VIEW_TYPE_HEADER = 0;
     private static final int VIEW_TYPE_TRANSACTION = 1;

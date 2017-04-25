@@ -1,7 +1,5 @@
-package io.mattcarroll.androidtesting.transactions;
+package io.mattcarroll.androidtesting.overview;
 
-import android.content.Context;
-import android.content.res.Resources;
 import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
@@ -17,9 +15,9 @@ class TransactionListPresenter {
 
     private List<Object> viewModels;
 
-    TransactionListPresenter() {
+    public TransactionListPresenter() {
         viewModels = Arrays.asList(
-                (Object) new TransactionListItemViewModel(R.drawable.ic_receipt, "Transction 1", "Subtitle", null),
+                new TransactionListItemViewModel(R.drawable.ic_receipt, "Transction 1", "Subtitle", null),
                 new HeaderListItemViewModel("Yesterday", null),
                 new TransactionListItemViewModel(R.drawable.ic_receipt, "Transaction 2", null, null),
                 new TransactionListItemViewModel(R.drawable.ic_receipt, "Transaction 3", "Subtitle", "$15.00"),
@@ -27,8 +25,9 @@ class TransactionListPresenter {
         );
     }
 
+    @NonNull
     public List<Object> getTransactionListItems() {
-        return new ArrayList<Object>(viewModels);
+        return new ArrayList<>(viewModels);
     }
 
 }

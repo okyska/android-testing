@@ -1,4 +1,4 @@
-package io.mattcarroll.androidtesting.transactions;
+package io.mattcarroll.androidtesting.overview;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
@@ -13,7 +13,7 @@ import io.mattcarroll.androidtesting.R;
 /**
  * View that renders the header for a Transaction category.
  */
-public class HeaderListItemView extends FrameLayout {
+class HeaderListItemView extends FrameLayout {
 
     private TextView titleTextView;
     private TextView subtitleTextView;

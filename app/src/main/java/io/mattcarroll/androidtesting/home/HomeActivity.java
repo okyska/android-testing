@@ -23,7 +23,6 @@ import io.mattcarroll.androidtesting.R;
 import io.mattcarroll.androidtesting.creditcardanalysis.CreditCardAnalysisFragment;
 import io.mattcarroll.androidtesting.overview.AccountsOverviewFragment;
 import io.mattcarroll.androidtesting.spending.MonthlySpendingFragment;
-import io.mattcarroll.androidtesting.transactions.TransactionListFragment;
 import io.mattcarroll.androidtesting.login.LoginActivity;
 import io.mattcarroll.androidtesting.usersession.UserSession;
 
@@ -75,7 +74,6 @@ public class HomeActivity extends AppCompatActivity
     private void initNavItemMap() {
         navItemToFragmentMap.put(R.id.nav_overview, AccountsOverviewFragment.newInstance());
         navItemToFragmentMap.put(R.id.nav_credit_card_analysis, CreditCardAnalysisFragment.newInstance());
-        navItemToFragmentMap.put(R.id.nav_transactions, TransactionListFragment.newInstance());
         navItemToFragmentMap.put(R.id.nav_monthly_spending, MonthlySpendingFragment.newInstance());
     }
 
