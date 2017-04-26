@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Android Testing</string>
 
-    <!-- Strings related to login -->
+    <!-- Login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in</string>
@@ -14,6 +14,13 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="dialog_title_signup_successful">Signup successful!</string>
+    <string name="dialog_message_signup_successful">You\'ll receive a verification email shortly.</string>
+    <string name="dialog_title_signup_failed">Sign up failed</string>
+    <string name="dialog_message_signup_failed">Try again later.</string>
+
+    <!-- Home -->
+
     <string name="title_activity_home">HomeActivity</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -27,7 +34,7 @@
     <string name="dialog_select_interests_body">Please select at least 1 interest.</string>
     <string name="button_ok">Ok</string>
 
-    <!-- Strings related to Overview screen -->
+    <!-- Overview -->
     <string name="label_transactions">Transactions</string>
     <string name="label_monthly_spending">Monthly Spending</string>
     <string name="label_credit_card_analysis">Credit Card Analysis</string>

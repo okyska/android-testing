@@ -1,6 +1,7 @@
 package io.mattcarroll.androidtesting.signup;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
@@ -16,6 +17,7 @@ import io.mattcarroll.androidtesting.R;
 import io.mattcarroll.androidtesting.usersession.UserSession;
 
 public class SignUpActivity extends AppCompatActivity {
+    public static final int RESULT_FAILED = 1001;
 
     private static final String TAG = "SignUpActivity";
     private static final String KEY_SIGN_UP_FORM = "sign_up_form";
@@ -70,13 +72,20 @@ public class SignUpActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if (isBackBehaviorAllowed()) {
+            if (getVisibleFragment() instanceof CollectPersonalInfoFragment) {
+                setResult(RESULT_CANCELED);
+            }
             super.onBackPressed();
         }
     }
 
+    @Nullable
+    private Fragment getVisibleFragment() {
+        return getSupportFragmentManager().findFragmentById(R.id.framelayout_container);
+    }
+
     private boolean isBackBehaviorAllowed() {
-        Fragment visibleFragment = getSupportFragmentManager().findFragmentById(R.id.framelayout_container);
-        return !(visibleFragment instanceof DoSignUpFragment);
+        return !(getVisibleFragment() instanceof DoSignUpFragment);
     }
 
     public void onEventMainThread(@NonNull CollectPersonalInfoFragment.PersonalInfoCompletedEvent event) {

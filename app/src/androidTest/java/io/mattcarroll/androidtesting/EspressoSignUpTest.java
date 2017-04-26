@@ -4,12 +4,9 @@ package io.mattcarroll.androidtesting;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.Espresso;
 import android.support.test.espresso.NoActivityResumedException;
-import android.support.test.espresso.idling.CountingIdlingResource;
 import android.support.test.espresso.matcher.BoundedMatcher;
 import android.support.test.rule.ActivityTestRule;
-import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 import android.widget.EditText;
 
@@ -18,7 +15,6 @@ import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import io.mattcarroll.androidtesting.signup.SignUpActivity;
 
@@ -35,18 +31,17 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.Assert.assertTrue;
 
-@RunWith(AndroidJUnit4.class)
 public class EspressoSignUpTest {
 
     @Rule
     public final ActivityTestRule<SignUpActivity> activityRule =
             new ActivityTestRule<>(SignUpActivity.class, false, true);
 
-    private Resources mRes;
+    private Resources resources;
 
     @Before
     public void setup() {
-        mRes = InstrumentationRegistry.getTargetContext().getResources();
+        resources = InstrumentationRegistry.getTargetContext().getResources();
     }
 
     @Test
@@ -74,19 +69,19 @@ public class EspressoSignUpTest {
                 .perform(scrollTo())
                 .perform(click());
         onView(withId(R.id.edittext_first_name))
-                .check(matches(hasErrorText(mRes.getString(R.string.input_error_required))));
+                .check(matches(hasErrorText(resources.getString(R.string.input_error_required))));
         onView(withId(R.id.edittext_last_name))
-                .check(matches(hasErrorText(mRes.getString(R.string.input_error_required))));
+                .check(matches(hasErrorText(resources.getString(R.string.input_error_required))));
         onView(withId(R.id.edittext_address_line_1))
-                .check(matches(hasErrorText(mRes.getString(R.string.input_error_required))));
+                .check(matches(hasErrorText(resources.getString(R.string.input_error_required))));
         onView(withId(R.id.edittext_address_line_2))
                 .check(matches(hasNoError()));
         onView(withId(R.id.edittext_address_city))
-                .check(matches(hasErrorText(mRes.getString(R.string.input_error_required))));
+                .check(matches(hasErrorText(resources.getString(R.string.input_error_required))));
         onView(withId(R.id.edittext_address_state))
-                .check(matches(hasErrorText(mRes.getString(R.string.input_error_required))));
+                .check(matches(hasErrorText(resources.getString(R.string.input_error_required))));
         onView(withId(R.id.edittext_address_zip))
-                .check(matches(hasErrorText(mRes.getString(R.string.input_error_required))));
+                .check(matches(hasErrorText(resources.getString(R.string.input_error_required))));
 
         // Fill in personal information and ensure we can move forward after triggering errors.
         fillInValidPersonalInfo();
@@ -122,9 +117,9 @@ public class EspressoSignUpTest {
         // Verify that credentials are required for sign up.
         scrollToAndPressNext();
         onView(withId(R.id.autocompletetextview_email))
-                .check(matches(hasErrorText(mRes.getString(R.string.input_error_required))));
+                .check(matches(hasErrorText(resources.getString(R.string.input_error_required))));
         onView(withId(R.id.edittext_password))
-                .check(matches(hasErrorText(mRes.getString(R.string.input_error_required))));
+                .check(matches(hasErrorText(resources.getString(R.string.input_error_required))));
     }
 
     @Test
