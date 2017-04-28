@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.util.SparseArray;
@@ -20,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import io.mattcarroll.androidtesting.R;
+import io.mattcarroll.androidtesting.accounts.ManageAccountsActivity;
 import io.mattcarroll.androidtesting.creditcardanalysis.CreditCardAnalysisFragment;
 import io.mattcarroll.androidtesting.overview.AccountsOverviewFragment;
 import io.mattcarroll.androidtesting.spending.MonthlySpendingFragment;
@@ -47,8 +47,7 @@ public class HomeActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                launchManageAccountScreen();
             }
         });
 
@@ -69,6 +68,11 @@ public class HomeActivity extends AppCompatActivity
                     .add(R.id.framelayout_container, navItemToFragmentMap.get(defaultNavItem))
                     .commit();
         }
+    }
+
+    private void launchManageAccountScreen() {
+        Intent manageAccountIntent = new Intent(this, ManageAccountsActivity.class);
+        startActivity(manageAccountIntent);
     }
 
     private void initNavItemMap() {

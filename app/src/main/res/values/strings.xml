@@ -41,4 +41,8 @@
     <string name="label_balance">Balance</string>
     <string name="label_spent_this_month">Spent This Month</string>
 
+    <!-- Manage Account -->
+    <string name="button_remove_account">Remove</string>
+    <string name="button_link_account">Link Account</string>
+
 </resources>

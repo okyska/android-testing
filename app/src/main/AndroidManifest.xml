@@ -38,6 +38,8 @@
             android:theme="@style/AppTheme.NoActionBar"
             >
         </activity>
+        <activity android:name=".accounts.ManageAccountsActivity"
+            />
     </application>
 
 </manifest>
