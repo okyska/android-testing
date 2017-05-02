@@ -26,8 +26,14 @@ public class AccountsApi {
         bankAccountRepository = new BankAccountRepository();
     }
 
+    @NonNull
     public Set<String> accountIds() {
         return bankAccountRepository.getBankAccountIds();
+    }
+
+    @NonNull
+    public Set<BankAccount> accounts() {
+        return bankAccountRepository.getBankAccounts();
     }
 
     public void linkBankAccount(@NonNull AccountCredentials accountCredentials) {
@@ -41,8 +47,12 @@ public class AccountsApi {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        String institutionName = accountCredentials.getFinancialInstitutionName();
+
         return new BankAccount(
-                accountCredentials.getFinancialInstitutionName(),
+                institutionName,
+                new RandomAccountName().generate(institutionName),
                 accountCredentials.getAccountNumber(),
                 new RandomTransactions().generate());
     }

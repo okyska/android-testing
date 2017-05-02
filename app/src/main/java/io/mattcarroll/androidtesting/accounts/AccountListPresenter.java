@@ -23,10 +23,10 @@ class AccountListPresenter {
     }
 
     @NonNull
-    public List<AccountListItemViewModel> present(@NonNull Collection<Account> accounts) {
+    public List<AccountListItemViewModel> present(@NonNull Collection<BankAccount> accounts) {
         List<AccountListItemViewModel> accountViewModels = new ArrayList<>(accounts.size());
 
-        for (Account account : accounts) {
+        for (BankAccount account : accounts) {
             AccountListItemViewModel viewModel = createViewModel(account, listener);
             accountViewModels.add(viewModel);
         }
@@ -35,11 +35,12 @@ class AccountListPresenter {
     }
 
     @NonNull
-    private AccountListItemViewModel createViewModel(@NonNull Account account,
+    private AccountListItemViewModel createViewModel(@NonNull BankAccount account,
                                                      @Nullable AccountListItemView.OnRemoveClickListener listener) {
-        String accountNumber = account.getAccountNumber();
+        String accountNumber = account.getAccountId();
+        String displayName = account.getBankName() + " " + account.getAccountName();
         String maskedAccountNumber = mask.apply(accountNumber);
         return new AccountListItemViewModel(
-                account.getAccountId(), account.getName(), maskedAccountNumber, listener);
+                accountNumber, displayName, maskedAccountNumber, listener);
     }
 }
