@@ -15,6 +15,7 @@ public class BankAccountRepository {
 
     private final Map<String, BankAccount> bankAccounts = new ConcurrentHashMap<>();
 
+    @NonNull
     public Set<String> getBankAccountIds() {
         return new HashSet<>(bankAccounts.keySet());
     }
@@ -33,4 +34,8 @@ public class BankAccountRepository {
         return null != removedAccount;
     }
 
+    @NonNull
+    public Set<BankAccount> getBankAccounts() {
+        return new HashSet<>(bankAccounts.values());
+    }
 }

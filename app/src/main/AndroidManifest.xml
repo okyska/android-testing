@@ -40,6 +40,8 @@
         </activity>
         <activity android:name=".accounts.ManageAccountsActivity"
             />
+        <service android:name=".accounts.AccountsService"
+            />
     </application>
 
 </manifest>
