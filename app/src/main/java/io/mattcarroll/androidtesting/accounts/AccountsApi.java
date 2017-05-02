@@ -52,7 +52,7 @@ public class AccountsApi {
 
         return new BankAccount(
                 institutionName,
-                new RandomAccountName().generate(institutionName),
+                new RandomAccountName().generate(),
                 accountCredentials.getAccountNumber(),
                 new RandomTransactions().generate());
     }
