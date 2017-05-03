@@ -36,10 +36,14 @@
             android:name=".home.HomeActivity"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar"
-            >
-        </activity>
+            />
         <activity android:name=".accounts.ManageAccountsActivity"
             />
+        <activity
+            android:name=".accounts.LinkAccountActivity"
+            android:windowSoftInputMode="adjustResize"
+            />
+
         <service android:name=".accounts.AccountsService"
             />
     </application>

@@ -1,6 +1,7 @@
 package io.mattcarroll.androidtesting.accounts;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.WorkerThread;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,11 +37,13 @@ public class AccountsApi {
         return bankAccountRepository.getBankAccounts();
     }
 
+    @WorkerThread
     public void linkBankAccount(@NonNull AccountCredentials accountCredentials) {
         BankAccount linkedBankAccount = doLinkAccount(accountCredentials);
         bankAccountRepository.addBankAccount(linkedBankAccount);
     }
 
+    @WorkerThread
     private BankAccount doLinkAccount(@NonNull AccountCredentials accountCredentials) {
         try {
             Thread.sleep(2000);
