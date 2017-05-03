@@ -12,6 +12,7 @@ import android.widget.EditText;
 
 import io.mattcarroll.androidtesting.Bus;
 import io.mattcarroll.androidtesting.R;
+import io.mattcarroll.androidtesting.RequiredFieldOnFocusChangeListener;
 
 /**
  * Collect personal info about the user.

@@ -1,4 +1,4 @@
-package io.mattcarroll.androidtesting.signup;
+package io.mattcarroll.androidtesting;
 
 import android.view.View;
 import android.widget.EditText;
@@ -6,7 +6,7 @@ import android.widget.EditText;
 /**
  * Validates that a required field has content when the field loses focus.
  */
-class RequiredFieldOnFocusChangeListener implements View.OnFocusChangeListener {
+public class RequiredFieldOnFocusChangeListener implements View.OnFocusChangeListener {
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
         if (!hasFocus) {

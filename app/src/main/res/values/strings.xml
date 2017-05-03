@@ -45,4 +45,11 @@
     <string name="button_remove_account">Remove</string>
     <string name="button_link_account">Link Account</string>
 
+    <!-- Link Account -->
+    <string name="prompt_bank_name">Bank name</string>
+    <string name="prompt_account_number">Account number</string>
+    <string name="dialog_title_account_link_failed">Couldn\'t link account</string>
+    <string name="dialog_message_account_link_failed">Try again later.</string>
+    <string name="text_no_linked_accounts">No linked accounts</string>
+
 </resources>
