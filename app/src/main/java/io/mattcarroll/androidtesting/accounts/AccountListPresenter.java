@@ -7,10 +7,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import io.mattcarroll.androidtesting.overview.Account;
-
 /**
- * Presents a list of {@link AccountListItemViewModel}s from a set of {@link Account}s.
+ * Presents a list of {@link AccountListItemViewModel}s from a set of {@link BankAccount}s.
  */
 class AccountListPresenter {
     private final AccountNumberMask mask;

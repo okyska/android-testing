@@ -18,11 +18,15 @@ import android.widget.ListView;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import io.mattcarroll.androidtesting.R;
+import io.mattcarroll.androidtesting.accounts.BankAccount;
+import io.mattcarroll.androidtesting.accounts.RandomTransactions;
+import io.mattcarroll.androidtesting.accounts.Transaction;
 
 /**
  * Display an overview of the user's accounts.
@@ -30,34 +34,30 @@ import io.mattcarroll.androidtesting.R;
 public class AccountsOverviewFragment extends Fragment {
     private static final String TAG = "AccountsOverviewFragment";
 
-    private static final Set<Account> DUMMY_ACCOUNTS = new HashSet<>(Arrays.asList(
-            new Account(
-                    "account1",
-                    "Chase Sapphire Reserve",
+    private static final Set<BankAccount> DUMMY_ACCOUNTS = new HashSet<>(Arrays.asList(
+            new BankAccount(
+                    "Chase",
+                    "Sapphire Reserve",
                     "0000111122223333",
-                    new BigDecimal(350),
-                    new BigDecimal(1234)
+                    new RandomTransactions().generate()
             ),
-            new Account(
-                    "account2",
-                    "Discover Mega Cash Back Extreme",
-                    "9999888877776666",
-                    new BigDecimal(678),
-                    new BigDecimal(884)
+            new BankAccount(
+                    "Chase",
+                    "Amazon Rewards",
+                    "0000111122223333",
+                    new RandomTransactions().generate()
             ),
-            new Account(
-                    "account3",
-                    "Chipotle GuacBack™ Rewards",
-                    "01101111000101011100",
-                    new BigDecimal(1240),
-                    new BigDecimal(7844)
+            new BankAccount(
+                    "Bank of America",
+                    "Cash Rewards",
+                    "0000111122223333",
+                    new RandomTransactions().generate()
             ),
-            new Account(
-                    "account4",
-                    "Chase United Ejector Card",
-                    "5555012355550987",
-                    new BigDecimal(0),
-                    new BigDecimal(0)
+            new BankAccount(
+                    "Banana Republic",
+                    "Loyalty Card",
+                    "0000111122223333",
+                    new RandomTransactions().generate()
             )
     ));
 

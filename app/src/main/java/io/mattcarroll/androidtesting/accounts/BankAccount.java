@@ -40,7 +40,7 @@ public class BankAccount {
         return accountId;
     }
 
-    public int cashInCents() {
+    public long getCashInCents() {
         int cashInCents = 0;
         for (Transaction transaction : transactions) {
             if (transaction.isCredit()) {
@@ -50,14 +50,14 @@ public class BankAccount {
         return cashInCents;
     }
 
-    public int debtInCents() {
-        int cashInCents = 0;
+    public long getDebtInCents() {
+        int debt = 0;
         for (Transaction transaction : transactions) {
             if (transaction.isDebit()) {
-                cashInCents += Math.abs(transaction.getAmountInCents());
+                debt += Math.abs(transaction.getAmountInCents());
             }
         }
-        return cashInCents;
+        return debt;
     }
 
     @NonNull

@@ -21,11 +21,19 @@ public class Transaction {
         return amountInCents > 0;
     }
 
-    public int getAmountInCents() {
+    public long getAmountInCents() {
         return amountInCents;
     }
 
     public long getProcessDate() {
         return processDate;
+    }
+
+    @Override
+    public String toString() {
+        return "Transaction{" +
+                "amountInCents=" + amountInCents +
+                ", processDate=" + processDate +
+                '}';
     }
 }
