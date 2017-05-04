@@ -13,28 +13,22 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import java.util.List;
-import java.util.Set;
 
 import io.mattcarroll.androidtesting.R;
 
 public class ManageAccountsActivity extends AppCompatActivity {
-    private static final int REQUEST_CODE_LINK_ACCOUNT = 1001;
-
     private RecyclerView accountsView;
     private View noAccountsView;
     private AccountListAdapter accountListAdapter;
     private AccountListPresenter accountListPresenter;
     private List<AccountListItemViewModel> accountListViewModels;
-    private Set<BankAccount> accounts;
     private AccountsApi api;
     private ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             api = ((AccountsService.LocalBinder) service).getApi();
-            loadAccounts();
             updatePresentation();
         }
 
@@ -66,22 +60,20 @@ public class ManageAccountsActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        updatePresentation();
+    }
+
+    @Override
     protected void onDestroy() {
         unbindService(serviceConnection);
         super.onDestroy();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_CODE_LINK_ACCOUNT && resultCode == RESULT_OK) {
-            loadAccounts();
-            updatePresentation();
-        }
-    }
-
     private void launchLinkAccountScreen() {
         Intent linkAccountIntent = new Intent(this, LinkAccountActivity.class);
-        startActivityForResult(linkAccountIntent, REQUEST_CODE_LINK_ACCOUNT);
+        startActivity(linkAccountIntent);
     }
 
     private void initAccountsView(@NonNull RecyclerView accountsView) {
@@ -110,31 +102,19 @@ public class ManageAccountsActivity extends AppCompatActivity {
         bindService(accountsServiceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
     }
 
-    private void loadAccounts() {
-        if (api != null) {
-            accounts = api.accounts();
-        }
-    }
-
     private void removeAccount(@NonNull String accountId) {
         if (api != null) {
             api.removeAccount(accountId);
+            updatePresentation();
         }
-
-        BankAccount accountToRemove = null;
-        for (BankAccount account : accounts) {
-            if (account.getAccountId().equals(accountId)) {
-                accountToRemove = account;
-                break;
-            }
-        }
-
-        accounts.remove(accountToRemove);
-        updatePresentation();
     }
 
     private void updatePresentation() {
-        accountListViewModels = accountListPresenter.present(accounts);
+        if (api == null) {
+            return;
+        }
+
+        accountListViewModels = accountListPresenter.present(api.accounts());
         accountListAdapter.setViewModels(accountListViewModels);
         if (accountListViewModels.size() == 0) {
             accountsView.setVisibility(View.GONE);
@@ -144,5 +124,4 @@ public class ManageAccountsActivity extends AppCompatActivity {
             noAccountsView.setVisibility(View.GONE);
         }
     }
-
 }

@@ -15,7 +15,6 @@ import io.mattcarroll.androidtesting.R;
 import io.mattcarroll.androidtesting.RequiredFieldOnFocusChangeListener;
 
 public class LinkAccountActivity extends AppCompatActivity {
-    public static final int RESULT_FAILED = 2;
     private static final String TAG_LINK_ACCOUNT_FRAGMENT = "DoLinkAccountFragment";
 
     private EditText bankNameField;
@@ -114,13 +113,11 @@ public class LinkAccountActivity extends AppCompatActivity {
 
     @SuppressWarnings("unused")
     public void onEventMainThread(@NonNull LinkAccountSucceededEvent event) {
-        setResult(RESULT_OK);
         finish();
     }
 
     @SuppressWarnings("unused")
     public void onEventMainThread(@NonNull LinkAccountFailedEvent event) {
-        setResult(RESULT_FAILED);
         removeLinkAccountFragment();
         new AlertDialog.Builder(this)
                 .setTitle(R.string.dialog_title_account_link_failed)

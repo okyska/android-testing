@@ -7,6 +7,16 @@
     tools:context="io.mattcarroll.androidtesting.overview.AccountsOverviewFragment"
     >
 
+    <TextView
+        android:id="@+id/textview_no_accounts"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:gravity="center"
+        android:textSize="24sp"
+        android:text="@string/text_no_linked_accounts"
+        android:visibility="gone"
+        />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview_accounts"
         android:layout_width="match_parent"

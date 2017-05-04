@@ -55,7 +55,7 @@ class AccountsPresenter {
 
     @NonNull
     private String presentBalance(@NonNull BankAccount account) {
-        long balanceInCents = account.getCashInCents() - account.getDebtInCents();
+        long balanceInCents = account.cashInCents() - account.debtInCents();
         balanceInCents = Math.max(0, balanceInCents); // if credits exceed debits, show 0 for balance
         BigDecimal balanceInDollars = new BigDecimal(balanceInCents).movePointLeft(2);
         return currencyFormat.format(balanceInDollars);
@@ -74,7 +74,7 @@ class AccountsPresenter {
         long amountSpentThisMonth = 0;
         for (Transaction transaction : thisMonthTransactions) {
             if (transaction.isDebit()) {
-                amountSpentThisMonth += Math.abs(transaction.getAmountInCents());
+                amountSpentThisMonth += Math.abs(transaction.amountInCents());
             }
         }
         return amountSpentThisMonth;

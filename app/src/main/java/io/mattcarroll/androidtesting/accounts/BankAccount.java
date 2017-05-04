@@ -40,21 +40,21 @@ public class BankAccount {
         return accountId;
     }
 
-    public long getCashInCents() {
+    public long cashInCents() {
         int cashInCents = 0;
         for (Transaction transaction : transactions) {
             if (transaction.isCredit()) {
-                cashInCents += transaction.getAmountInCents();
+                cashInCents += transaction.amountInCents();
             }
         }
         return cashInCents;
     }
 
-    public long getDebtInCents() {
+    public long debtInCents() {
         int debt = 0;
         for (Transaction transaction : transactions) {
             if (transaction.isDebit()) {
-                debt += Math.abs(transaction.getAmountInCents());
+                debt += Math.abs(transaction.amountInCents());
             }
         }
         return debt;
@@ -69,7 +69,7 @@ public class BankAccount {
     public List<Transaction> getTransactionsInDateRange(long startTime, long endTime) {
         ArrayList<Transaction> transactionsInRange = new ArrayList<>();
         for (Transaction transaction : transactions) {
-            if (transaction.getProcessDate() >= startTime && transaction.getProcessDate() <= endTime) {
+            if (transaction.date() >= startTime && transaction.date() <= endTime) {
                 transactionsInRange.add(transaction);
             }
         }

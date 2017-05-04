@@ -17,6 +17,12 @@ class TransactionListItemViewModel {
 
     public TransactionListItemViewModel(@Nullable @DrawableRes Integer icon,
                                         @NonNull String title,
+                                        @Nullable String detail) {
+        this(icon, title, null, detail);
+    }
+
+    public TransactionListItemViewModel(@Nullable @DrawableRes Integer icon,
+                                        @NonNull String title,
                                         @Nullable String subtitle,
                                         @Nullable String detail) {
         this.icon = icon;
