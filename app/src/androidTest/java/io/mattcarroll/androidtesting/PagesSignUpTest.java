@@ -2,7 +2,6 @@ package io.mattcarroll.androidtesting;
 
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.NoActivityResumedException;
 import android.support.test.rule.ActivityTestRule;
@@ -26,10 +25,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static io.mattcarroll.androidtesting.EspressoUtils.getError;
-import static io.mattcarroll.androidtesting.EspressoUtils.getText;
+import static io.mattcarroll.androidtesting.EspressoUtils.hasNoErrorText;
 import static io.mattcarroll.androidtesting.EspressoUtils.setChecked;
-import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 import static org.hamcrest.Matchers.is;
 
@@ -55,17 +52,17 @@ public class PagesSignUpTest {
     @Test
     public void userSignUpHappyPath() {
         new PersonalInfoPage()
-                .enterFirstName("Matt")
-                .enterLastName("Carroll")
-                .enterAddressLine1("123 Fake Street")
-                .enterCity("Palo Alto")
-                .enterState("CA")
-                .enterZip("94024")
+                .firstName("Matt")
+                .lastName("Carroll")
+                .addressLine1("123 Fake Street")
+                .city("Palo Alto")
+                .state("CA")
+                .zip("94024")
                 .next()
                 .selectInterests("Football")
                 .next()
-                .enterUsername("myuser")
-                .enterPassword("123456")
+                .username("myuser")
+                .password("123456")
                 .next();
 
         // Ensure that this Activity destroyed itself upon successful completion of sign up.
@@ -73,41 +70,44 @@ public class PagesSignUpTest {
     }
 
     @Test
-    public void userSignUpPersonalInfoVerifyRequiredFieldsAreRequired() {
+    public void personalInfoScreenRequiredFieldsAreRequired() {
+        final String NO_ERROR = "";
+        final String REQUIRED_FIELD_ERROR = resources.getString(R.string.input_error_required);
+
         // Verify required fields show errors and non-required fields do not.
         PersonalInfoPage page = new PersonalInfoPage();
-        page.next();
 
-        assertEquals(resources.getString(R.string.input_error_required), page.getFirstNameError());
-        assertEquals(resources.getString(R.string.input_error_required), page.getLastNameError());
-        assertEquals(resources.getString(R.string.input_error_required), page.getAddressLine1Error());
-        assertEquals(resources.getString(R.string.input_error_required), page.getCityError());
-        assertEquals(resources.getString(R.string.input_error_required), page.getStateError());
-        assertEquals(resources.getString(R.string.input_error_required), page.getZipError());
+        page.next(); // trigger form errors.
 
-        assertTrue(TextUtils.isEmpty(page.getAddressLine2Error()));
+        page.hasFirstNameError(REQUIRED_FIELD_ERROR)
+                .hasLastNameError(REQUIRED_FIELD_ERROR)
+                .hasAddressLine1Error(REQUIRED_FIELD_ERROR)
+                .hasAddressLine2Error(NO_ERROR)
+                .hasCityError(REQUIRED_FIELD_ERROR)
+                .hasStateError(REQUIRED_FIELD_ERROR)
+                .hasZipError(REQUIRED_FIELD_ERROR);
 
         // Fill in personal information and ensure we can move forward after triggering errors.
-        page.enterFirstName("Matt")
-                .enterLastName("Carroll")
-                .enterAddressLine1("123 Fake Street")
-                .enterCity("Palo Alto")
-                .enterState("CA")
-                .enterZip("94024")
+        page.firstName("Matt")
+                .lastName("Carroll")
+                .addressLine1("123 Fake Street")
+                .city("Palo Alto")
+                .state("CA")
+                .zip("94024")
                 .next();
 
-        page.ensureNotVisible();
+        page.isNotVisible();
     }
 
     @Test
-    public void userSignUpInterestsVerifySelectionRequiredToContinue() {
+    public void atLeastOneSelectedInterestRequiredToPassInterestsScreen() {
         new PersonalInfoPage()
-                .enterFirstName("Matt")
-                .enterLastName("Carroll")
-                .enterAddressLine1("123 Fake Street")
-                .enterCity("Palo Alto")
-                .enterState("CA")
-                .enterZip("94024")
+                .firstName("Matt")
+                .lastName("Carroll")
+                .addressLine1("123 Fake Street")
+                .city("Palo Alto")
+                .state("CA")
+                .zip("94024")
                 .next()
                 .next();
 
@@ -117,45 +117,46 @@ public class PagesSignUpTest {
 
     @Test
     public void userSignUpCredentialsVerifyUsernameAndPasswordAreRequired() {
-        new PersonalInfoPage()
-                .enterFirstName("Matt")
-                .enterLastName("Carroll")
-                .enterAddressLine1("123 Fake Street")
-                .enterCity("Palo Alto")
-                .enterState("CA")
-                .enterZip("94024")
+        final String REQUIRED_FIELD_ERROR = resources.getString(R.string.input_error_required);
+
+        CredentialsPage credentialsPage = new PersonalInfoPage()
+                .firstName("Matt")
+                .lastName("Carroll")
+                .addressLine1("123 Fake Street")
+                .city("Palo Alto")
+                .state("CA")
+                .zip("94024")
                 .next()
                 .selectInterests("Football")
-                .next()
                 .next();
 
+        credentialsPage.next(); // trigger form errors.
+
         // Verify that credentials are required for sign up.
-        onView(withId(R.id.autocompletetextview_email))
-                .check(matches(hasErrorText(resources.getString(R.string.input_error_required))));
-        onView(withId(R.id.edittext_password))
-                .check(matches(hasErrorText(resources.getString(R.string.input_error_required))));
+        credentialsPage.hasUsernameError(REQUIRED_FIELD_ERROR)
+                .hasPasswordError(REQUIRED_FIELD_ERROR);
     }
 
     @Test
-    public void userSignUpVerifyBackWorksOnEachPage() {
+    public void backWorksOnEachPage() {
         CredentialsPage credentialsPage = new PersonalInfoPage()
-                .enterFirstName("Matt")
-                .enterLastName("Carroll")
-                .enterAddressLine1("123 Fake Street")
-                .enterCity("Palo Alto")
-                .enterState("CA")
-                .enterZip("94024")
+                .firstName("Matt")
+                .lastName("Carroll")
+                .addressLine1("123 Fake Street")
+                .city("Palo Alto")
+                .state("CA")
+                .zip("94024")
                 .next()
                 .selectInterests("Football")
                 .next();
 
         // We're on the final page.  Now go back to each previous page.
         InterestsPage interestsPage = credentialsPage.back();
-        interestsPage.ensureVisible();
+        interestsPage.isVisible();
 
         // We're on the interests page.  Go back to the Personal Info page.
         PersonalInfoPage personalInfoPage = interestsPage.back();
-        personalInfoPage.ensureVisible();
+        personalInfoPage.isVisible();
 
         // Go back again. We expect the Sign Up Activity to disappear.
         boolean didActivityFinish = false;
@@ -169,26 +170,34 @@ public class PagesSignUpTest {
 
     private static class PersonalInfoPage {
 
-        public void ensureVisible() {
+        @NonNull
+        public PersonalInfoPage isVisible() {
             onView(withId(R.id.edittext_first_name)).check(matches(isDisplayed()));
+            return this;
         }
 
-        public void ensureNotVisible() {
+        @NonNull
+        public PersonalInfoPage isNotVisible() {
             onView(withId(R.id.edittext_first_name)).check(doesNotExist());
+            return this;
         }
 
         @NonNull
-        public String getFirstName() {
-            return getText(withId(R.id.edittext_first_name));
-        }
-
-        @Nullable
-        public String getFirstNameError() {
-            return getError(withId(R.id.edittext_first_name));
+        public PersonalInfoPage hasFirstName(@NonNull String firstName) {
+            onView(withId(R.id.edittext_first_name)).check(matches(withText(firstName)));
+            return this;
         }
 
         @NonNull
-        public PersonalInfoPage enterFirstName(@NonNull String firstName) {
+        public PersonalInfoPage hasFirstNameError(@NonNull String error) {
+            onView(withId(R.id.edittext_first_name))
+                    .check(matches(
+                            TextUtils.isEmpty(error) ? hasNoErrorText() : hasErrorText(error)));
+            return this;
+        }
+
+        @NonNull
+        public PersonalInfoPage firstName(@NonNull String firstName) {
             onView(withId(R.id.edittext_first_name)).perform(
                     scrollTo(),
                     typeText(firstName));
@@ -196,17 +205,21 @@ public class PagesSignUpTest {
         }
 
         @NonNull
-        public String getLastName() {
-            return getText(withId(R.id.edittext_last_name));
-        }
-
-        @Nullable
-        public String getLastNameError() {
-            return getError(withId(R.id.edittext_last_name));
+        public PersonalInfoPage hastLastName(@NonNull String lastName) {
+            onView(withId(R.id.edittext_last_name)).check(matches(withText(lastName)));
+            return this;
         }
 
         @NonNull
-        public PersonalInfoPage enterLastName(@NonNull String lastName) {
+        public PersonalInfoPage hasLastNameError(@NonNull String error) {
+            onView(withId(R.id.edittext_last_name))
+                    .check(matches(
+                            TextUtils.isEmpty(error) ? hasNoErrorText() : hasErrorText(error)));
+            return this;
+        }
+
+        @NonNull
+        public PersonalInfoPage lastName(@NonNull String lastName) {
             onView(withId(R.id.edittext_last_name)).perform(
                     scrollTo(),
                     typeText(lastName));
@@ -214,17 +227,21 @@ public class PagesSignUpTest {
         }
 
         @NonNull
-        public String getAddressLine1() {
-            return getText(withId(R.id.edittext_address_line_1));
-        }
-
-        @Nullable
-        public String getAddressLine1Error() {
-            return getError(withId(R.id.edittext_address_line_1));
+        public PersonalInfoPage hasAddressLine1(@NonNull String addressLine1) {
+            onView(withId(R.id.edittext_address_line_1)).check(matches(withText(addressLine1)));
+            return this;
         }
 
         @NonNull
-        public PersonalInfoPage enterAddressLine1(@NonNull String addressLine1) {
+        public PersonalInfoPage hasAddressLine1Error(@NonNull String error) {
+            onView(withId(R.id.edittext_address_line_1))
+                    .check(matches(
+                            TextUtils.isEmpty(error) ? hasNoErrorText() : hasErrorText(error)));
+            return this;
+        }
+
+        @NonNull
+        public PersonalInfoPage addressLine1(@NonNull String addressLine1) {
             onView(withId(R.id.edittext_address_line_1)).perform(
                     scrollTo(),
                     typeText(addressLine1));
@@ -232,17 +249,21 @@ public class PagesSignUpTest {
         }
 
         @NonNull
-        public String getAddressLine2() {
-            return getText(withId(R.id.edittext_address_line_2));
-        }
-
-        @Nullable
-        public String getAddressLine2Error() {
-            return getError(withId(R.id.edittext_address_line_2));
+        public PersonalInfoPage hasAddressLine2(@NonNull String addressLine2) {
+            onView(withId(R.id.edittext_address_line_2)).check(matches(withText(addressLine2)));
+            return this;
         }
 
         @NonNull
-        public PersonalInfoPage enterAddressLine2(@NonNull String addressLine2) {
+        public PersonalInfoPage hasAddressLine2Error(@NonNull String error) {
+            onView(withId(R.id.edittext_address_line_2))
+                    .check(matches(
+                            TextUtils.isEmpty(error) ? hasNoErrorText() : hasErrorText(error)));
+            return this;
+        }
+
+        @NonNull
+        public PersonalInfoPage addressLine2(@NonNull String addressLine2) {
             onView(withId(R.id.edittext_address_line_2)).perform(
                     scrollTo(),
                     typeText(addressLine2));
@@ -250,17 +271,21 @@ public class PagesSignUpTest {
         }
 
         @NonNull
-        public String getCity() {
-            return getText(withId(R.id.edittext_address_city));
-        }
-
-        @Nullable
-        public String getCityError() {
-            return getError(withId(R.id.edittext_address_city));
+        public PersonalInfoPage hasCity(@NonNull String city) {
+            onView(withId(R.id.edittext_address_city)).check(matches(withText(city)));
+            return this;
         }
 
         @NonNull
-        public PersonalInfoPage enterCity(@NonNull String city) {
+        public PersonalInfoPage hasCityError(@NonNull String error) {
+            onView(withId(R.id.edittext_address_city))
+                    .check(matches(
+                            TextUtils.isEmpty(error) ? hasNoErrorText() : hasErrorText(error)));
+            return this;
+        }
+
+        @NonNull
+        public PersonalInfoPage city(@NonNull String city) {
             onView(withId(R.id.edittext_address_city)).perform(
                     scrollTo(),
                     typeText(city));
@@ -268,17 +293,21 @@ public class PagesSignUpTest {
         }
 
         @NonNull
-        public String getState() {
-            return getText(withId(R.id.edittext_address_state));
-        }
-
-        @Nullable
-        public String getStateError() {
-            return getError(withId(R.id.edittext_address_state));
+        public PersonalInfoPage hasState(@NonNull String state) {
+            onView(withId(R.id.edittext_address_state)).check(matches(withText(state)));
+            return this;
         }
 
         @NonNull
-        public PersonalInfoPage enterState(@NonNull String state) {
+        public PersonalInfoPage hasStateError(@NonNull String error) {
+            onView(withId(R.id.edittext_address_state))
+                    .check(matches(
+                            TextUtils.isEmpty(error) ? hasNoErrorText() : hasErrorText(error)));
+            return this;
+        }
+
+        @NonNull
+        public PersonalInfoPage state(@NonNull String state) {
             onView(withId(R.id.edittext_address_state)).perform(
                     scrollTo(),
                     typeText(state));
@@ -286,17 +315,21 @@ public class PagesSignUpTest {
         }
 
         @NonNull
-        public String getZip() {
-            return getText(withId(R.id.edittext_address_zip));
-        }
-
-        @Nullable
-        public String getZipError() {
-            return getError(withId(R.id.edittext_address_zip));
+        public PersonalInfoPage hasZip(@NonNull String zip) {
+            onView(withId(R.id.edittext_address_zip)).check(matches(withText(zip)));
+            return this;
         }
 
         @NonNull
-        public PersonalInfoPage enterZip(@NonNull String zip) {
+        public PersonalInfoPage hasZipError(@NonNull String error) {
+            onView(withId(R.id.edittext_address_zip))
+                    .check(matches(
+                            TextUtils.isEmpty(error) ? hasNoErrorText() : hasErrorText(error)));
+            return this;
+        }
+
+        @NonNull
+        public PersonalInfoPage zip(@NonNull String zip) {
             onView(withId(R.id.edittext_address_zip)).perform(
                     scrollTo(),
                     typeText(zip));
@@ -319,11 +352,11 @@ public class PagesSignUpTest {
 
     private static class InterestsPage {
 
-        public void ensureVisible() {
+        public void isVisible() {
             onView(withId(R.id.listview_interests)).check(matches(isDisplayed()));
         }
 
-        public void ensureNotVisible() {
+        public void isNotVisible() {
             onView(withId(R.id.listview_interests)).check(doesNotExist());
         }
 
@@ -358,26 +391,30 @@ public class PagesSignUpTest {
 
     private static class CredentialsPage {
 
-        public void ensureVisible() {
+        public CredentialsPage isVisible() {
             onView(withId(R.id.autocompletetextview_email)).check(matches(isDisplayed()));
+            return this;
         }
 
-        public void ensureNotVisible() {
+        public CredentialsPage isNotVisible() {
             onView(withId(R.id.autocompletetextview_email)).check(doesNotExist());
+            return this;
         }
 
         @NonNull
-        public String getUsername() {
-            return getText(withId(R.id.autocompletetextview_email));
-        }
-
-        @Nullable
-        public String getUsernameError() {
-            return getError(withId(R.id.autocompletetextview_email));
+        public CredentialsPage hasUsername(@NonNull String username) {
+            onView(withId(R.id.autocompletetextview_email)).check(matches(withText(username)));
+            return this;
         }
 
         @NonNull
-        public CredentialsPage enterUsername(@NonNull String username) {
+        public CredentialsPage hasUsernameError(@NonNull String error) {
+            onView(withId(R.id.autocompletetextview_email)).check(matches(hasErrorText(error)));
+            return this;
+        }
+
+        @NonNull
+        public CredentialsPage username(@NonNull String username) {
             onView(withId(R.id.autocompletetextview_email)).perform(
                     scrollTo(),
                     typeText(username));
@@ -385,17 +422,19 @@ public class PagesSignUpTest {
         }
 
         @NonNull
-        public String getPassword() {
-            return getText(withId(R.id.edittext_password));
-        }
-
-        @Nullable
-        public String getPasswordError() {
-            return getError(withId(R.id.edittext_password));
+        public CredentialsPage hasPassword(@NonNull String password) {
+            onView(withId(R.id.edittext_password)).check(matches(withText(password)));
+            return this;
         }
 
         @NonNull
-        public CredentialsPage enterPassword(@NonNull String password) {
+        public CredentialsPage hasPasswordError(@NonNull String error) {
+            onView(withId(R.id.edittext_password)).check(matches(hasErrorText(error)));
+            return this;
+        }
+
+        @NonNull
+        public CredentialsPage password(@NonNull String password) {
             onView(withId(R.id.edittext_password)).perform(
                     scrollTo(),
                     typeText(password));

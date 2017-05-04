@@ -8,12 +8,14 @@ import android.support.test.espresso.action.GeneralClickAction;
 import android.support.test.espresso.action.GeneralLocation;
 import android.support.test.espresso.action.Press;
 import android.support.test.espresso.action.Tap;
+import android.support.test.espresso.matcher.BoundedMatcher;
 import android.view.View;
 import android.widget.Checkable;
 import android.widget.CheckedTextView;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -55,6 +57,21 @@ public class EspressoUtils {
         public void perform(UiController uiController, View view) {
             text = ((TextView) view).getText().toString();
         }
+    }
+
+    public static Matcher<View> hasNoErrorText() {
+        return new BoundedMatcher<View, EditText>(EditText.class) {
+
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("has no error text: ");
+            }
+
+            @Override
+            protected boolean matchesSafely(EditText view) {
+                return view.getError() == null;
+            }
+        };
     }
 
     // Reads error in a TextView (or subclass) and returns it.
