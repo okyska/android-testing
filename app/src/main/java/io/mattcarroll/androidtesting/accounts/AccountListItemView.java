@@ -49,7 +49,7 @@ class AccountListItemView extends RelativeLayout {
 
     public void setViewModel(@NonNull AccountListItemViewModel viewModel) {
         accountId = viewModel.getAccountId();
-        accountNameView.setText(viewModel.getAccountName());
+        accountNameView.setText(viewModel.getDisplayName());
         accountNumberView.setText(viewModel.getMaskedAccountNumber());
         this.listener = viewModel.getOnRemoveClickListener();
     }
