@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Collection;
@@ -14,46 +13,38 @@ import java.util.HashSet;
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AccountListPresenterTest {
-    private static final String BANK_NAME = "Acme";
-    private static final String ACCOUNT_NAME = "Super Deluxe Card";
-    private static final String ACCOUNT_NUMBER = "0000111100001111";
-
-    @Mock
-    private AccountNumberMask mockMask;
     private AccountListPresenter presenter;
     private Collection<BankAccount> accounts;
 
     @Before
     public void setup() {
-        when(mockMask.apply(any(String.class))).thenReturn(""); // fulfill @NonNull contract
-        presenter = new AccountListPresenter(mockMask, null);
+        presenter = new AccountListPresenter(null);
         accounts = new HashSet<>();
     }
 
     @Test
     public void itPresentsBankAndAccountNameForDisplayName() {
-        BankAccount account = linkAccount(BANK_NAME, ACCOUNT_NAME);
-        String expectedDisplayName = account.getBankName() + " " + account.getAccountName();
+        linkAccount("Acme", "Super Deluxe Card");
+        String expectedDisplayName = "Acme Super Deluxe Card";
 
         List<AccountListItemViewModel> viewModels = presenter.present(accounts);
 
-        String displayName = viewModels.get(0).getDisplayName();
+        String displayName = viewModels.get(0).displayName();
         assertEquals(expectedDisplayName, displayName);
     }
 
     @Test
-    public void itPresentsMaskedAccountNumber() {
-        BankAccount account = linkAccountWithNumber(ACCOUNT_NUMBER);
+    public void itMasksAccountNumber() {
+        linkAccountWithNumber("0000111122223333");
+        String expectedMaskedNumber = "************3333";
 
-        presenter.present(accounts);
+        List<AccountListItemViewModel> viewModels = presenter.present(accounts);
 
-        verify(mockMask).apply(account.getAccountId());
+        String maskedAccountNumber = viewModels.get(0).accountNumber();
+        assertEquals(expectedMaskedNumber, maskedAccountNumber);
     }
 
     @NonNull

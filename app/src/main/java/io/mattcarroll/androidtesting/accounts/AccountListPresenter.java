@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -11,12 +12,12 @@ import java.util.List;
  * Presents a list of {@link AccountListItemViewModel}s from a set of {@link BankAccount}s.
  */
 class AccountListPresenter {
-    private final AccountNumberMask mask;
+    private static final int VISIBLE_DIGITS_LENGTH = 4;
+    private static final char MASKING_CHARACTER = '*';
+
     private final AccountListItemView.OnRemoveClickListener listener;
 
-    public AccountListPresenter(@NonNull AccountNumberMask mask,
-                                @Nullable AccountListItemView.OnRemoveClickListener listener) {
-        this.mask = mask;
+    public AccountListPresenter(@Nullable AccountListItemView.OnRemoveClickListener listener) {
         this.listener = listener;
     }
 
@@ -37,8 +38,24 @@ class AccountListPresenter {
                                                      @Nullable AccountListItemView.OnRemoveClickListener listener) {
         String accountNumber = account.getAccountId();
         String displayName = account.getBankName() + " " + account.getAccountName();
-        String maskedAccountNumber = mask.apply(accountNumber);
+        String maskedAccountNumber = mask(accountNumber);
         return new AccountListItemViewModel(
                 accountNumber, displayName, maskedAccountNumber, listener);
+    }
+
+    @NonNull
+    private String mask(@NonNull String accountNumber) {
+        final int length = accountNumber.length();
+        if (length <= VISIBLE_DIGITS_LENGTH) {
+            return accountNumber;
+        }
+
+        String lastFourDigits = accountNumber.substring(length - VISIBLE_DIGITS_LENGTH);
+
+        char[] maskedChars = new char[length - VISIBLE_DIGITS_LENGTH];
+        Arrays.fill(maskedChars, MASKING_CHARACTER);
+        final String maskedString = new String(maskedChars);
+
+        return maskedString + lastFourDigits;
     }
 }

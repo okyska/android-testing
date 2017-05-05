@@ -6,32 +6,32 @@ import android.support.annotation.Nullable;
 class AccountListItemViewModel {
     private final String accountId;
     private final String displayName;
-    private final String maskedAccountNumber;
+    private final String accountNumber;
     private final AccountListItemView.OnRemoveClickListener listener;
 
     public AccountListItemViewModel(@NonNull String accountId,
                                     @NonNull String displayName,
-                                    @NonNull String maskedAccountNumber,
+                                    @NonNull String accountNumber,
                                     @Nullable AccountListItemView.OnRemoveClickListener listener) {
         this.accountId = accountId;
         this.displayName = displayName;
-        this.maskedAccountNumber = maskedAccountNumber;
+        this.accountNumber = accountNumber;
         this.listener = listener;
     }
 
     @NonNull
-    public String getAccountId() {
+    public String accountId() {
         return accountId;
     }
 
     @NonNull
-    public String getDisplayName() {
+    public String displayName() {
         return displayName;
     }
 
     @NonNull
-    public String getMaskedAccountNumber() {
-        return maskedAccountNumber;
+    public String accountNumber() {
+        return accountNumber;
     }
 
     @Nullable
