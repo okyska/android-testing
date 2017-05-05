@@ -22,6 +22,7 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountViewHolder> {
 
     public void setViewModels(@NonNull List<AccountViewModel> viewModels) {
         this.viewModels = viewModels;
+        notifyDataSetChanged();
     }
 
     @Override

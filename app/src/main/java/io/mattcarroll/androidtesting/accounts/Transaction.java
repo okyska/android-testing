@@ -1,16 +1,25 @@
 package io.mattcarroll.androidtesting.accounts;
 
+import android.support.annotation.NonNull;
+
 /**
  * TODO
  */
 public class Transaction {
 
+    private final String description;
     private final int amountInCents;
-    private final long processDate;
+    private final long date;
 
-    public Transaction(int amountInCents, long processDate) {
+    public Transaction(@NonNull String description, int amountInCents, long date) {
+        this.description = description;
         this.amountInCents = amountInCents;
-        this.processDate = processDate;
+        this.date = date;
+    }
+
+    @NonNull
+    public String description() {
+        return description;
     }
 
     public boolean isDebit() {
@@ -21,11 +30,20 @@ public class Transaction {
         return amountInCents > 0;
     }
 
-    public int getAmountInCents() {
+    public long amountInCents() {
         return amountInCents;
     }
 
-    public long getProcessDate() {
-        return processDate;
+    public long date() {
+        return date;
+    }
+
+    @Override
+    public String toString() {
+        return "Transaction{" +
+                "description='" + description + '\'' +
+                ", amountInCents=" + amountInCents +
+                ", date=" + date +
+                '}';
     }
 }

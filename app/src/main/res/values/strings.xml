@@ -40,6 +40,8 @@
     <string name="label_credit_card_analysis">Credit Card Analysis</string>
     <string name="label_balance">Balance</string>
     <string name="label_spent_this_month">Spent This Month</string>
+    <string name="label_today">Today</string>
+    <string name="label_yesterday">Yesterday</string>
 
     <!-- Manage Account -->
     <string name="button_remove_account">Remove</string>

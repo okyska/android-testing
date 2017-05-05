@@ -72,7 +72,7 @@ public class AccountsApi {
 
         int balance = 0;
         for (Transaction transaction : bankAccount.getAllTransactions()) {
-            balance += transaction.getAmountInCents();
+            balance += transaction.amountInCents();
         }
         return balance;
     }
