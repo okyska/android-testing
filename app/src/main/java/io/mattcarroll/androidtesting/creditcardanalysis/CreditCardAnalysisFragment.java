@@ -8,7 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import io.mattcarroll.androidtesting.Bus;
 import io.mattcarroll.androidtesting.R;
+import io.mattcarroll.androidtesting.accounts.BankAccountsChangedEvent;
 
 /**
  * Provides aggregate analysis information about all of the user's credit cards.
@@ -42,8 +44,24 @@ public class CreditCardAnalysisFragment extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        Bus.getBus().register(this);
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
+        updatePresentation();
+    }
+
+    @Override
+    public void onStop() {
+        Bus.getBus().unregister(this);
+        super.onStop();
+    }
+
+    public void onEventMainThread(@NonNull BankAccountsChangedEvent event) {
         updatePresentation();
     }
 

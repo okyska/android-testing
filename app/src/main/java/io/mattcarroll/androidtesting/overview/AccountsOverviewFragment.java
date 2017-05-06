@@ -22,9 +22,12 @@ import android.widget.ListView;
 import java.text.NumberFormat;
 import java.util.List;
 
+import de.greenrobot.event.EventBus;
+import io.mattcarroll.androidtesting.Bus;
 import io.mattcarroll.androidtesting.R;
 import io.mattcarroll.androidtesting.accounts.AccountsApi;
 import io.mattcarroll.androidtesting.accounts.AccountsService;
+import io.mattcarroll.androidtesting.accounts.BankAccountsChangedEvent;
 import io.mattcarroll.androidtesting.accounts.Transaction;
 
 /**
@@ -88,15 +91,31 @@ public class AccountsOverviewFragment extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        Bus.getBus().register(this);
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         updatePresentation();
     }
 
     @Override
+    public void onStop() {
+        Bus.getBus().unregister(this);
+        super.onStop();
+    }
+
+    @Override
     public void onDetach() {
         getActivity().unbindService(serviceConnection);
         super.onDetach();
+    }
+
+    public void onEventMainThread(@NonNull BankAccountsChangedEvent event) {
+        updatePresentation();
     }
 
     private void initAccountsRecyclerView(@NonNull View view) {

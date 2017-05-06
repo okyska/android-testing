@@ -39,6 +39,27 @@ public class Transaction {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Transaction that = (Transaction) o;
+
+        if (amountInCents != that.amountInCents) return false;
+        if (date != that.date) return false;
+        return description.equals(that.description);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = description.hashCode();
+        result = 31 * result + amountInCents;
+        result = 31 * result + (int) (date ^ (date >>> 32));
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "Transaction{" +
                 "description='" + description + '\'' +

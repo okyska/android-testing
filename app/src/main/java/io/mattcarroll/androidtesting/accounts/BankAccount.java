@@ -2,6 +2,8 @@ package io.mattcarroll.androidtesting.accounts;
 
 import android.support.annotation.NonNull;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,5 +76,36 @@ public class BankAccount {
             }
         }
         return transactionsInRange;
+    }
+
+    public boolean sameTransactionHistory(@NonNull BankAccount other) {
+        return transactions.containsAll(other.getAllTransactions())
+                && other.getAllTransactions().containsAll(transactions);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        BankAccount that = (BankAccount) o;
+
+        if (!bankName.equals(that.bankName)) return false;
+        if (!accountName.equals(that.accountName)) return false;
+        return accountId.equals(that.accountId);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = bankName.hashCode();
+        result = 31 * result + accountName.hashCode();
+        result = 31 * result + accountId.hashCode();
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Bank Account. Bank: " + bankName + ". Account Name: " + accountName;
     }
 }

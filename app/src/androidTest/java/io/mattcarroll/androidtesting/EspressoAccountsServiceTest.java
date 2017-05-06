@@ -33,7 +33,6 @@ public class EspressoAccountsServiceTest {
         AccountCredentials credentials = new AccountCredentials(
                 "Bank of America",
                 "123456789",
-                "testuser",
                 "testpassword"
         );
 
