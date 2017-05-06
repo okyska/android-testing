@@ -4,8 +4,6 @@ import android.support.annotation.NonNull;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -21,7 +19,6 @@ import io.mattcarroll.androidtesting.accounts.Transaction;
 
 import static junit.framework.Assert.assertEquals;
 
-@RunWith(MockitoJUnitRunner.class)
 public class AccountsPresenterTest {
 
     private AccountsPresenter presenter;
