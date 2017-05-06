@@ -17,7 +17,7 @@ import io.mattcarroll.androidtesting.accounts.Transaction;
  * Presents a list of {@link AccountViewModel}s from a set of {@link BankAccount}s.
  */
 class AccountsPresenter {
-
+    private static final int NUM_TERMINATING_DIGITS = 4;
     private final NumberFormat currencyFormat;
 
     public AccountsPresenter(@NonNull NumberFormat currencyFormat) {
@@ -38,24 +38,29 @@ class AccountsPresenter {
 
     @NonNull
     private AccountViewModel present(@NonNull BankAccount account) {
-        String lastFourDigits = presentLastFourDigits(account);
+        String terminatingDigits = presentTerminatingDigits(account);
         String balanceAsString = presentBalance(account);
         String amountSpentAsString = presentAmountSpentThisMonth(account);
         String displayName = presentDisplayName(account);
 
         return new AccountViewModel(account.getAccountId(), displayName,
-                lastFourDigits, balanceAsString, amountSpentAsString);
+                terminatingDigits, balanceAsString, amountSpentAsString);
     }
 
     @NonNull
-    private String presentLastFourDigits(@NonNull BankAccount account) {
-        int accountNumberLength = account.getAccountId().length();
-        return account.getAccountId().substring(accountNumberLength - 4);
+    private String presentTerminatingDigits(@NonNull BankAccount account) {
+        String accountId = account.getAccountId();
+        int accountNumberLength = accountId.length();
+        if (accountNumberLength < NUM_TERMINATING_DIGITS) {
+            return accountId;
+        } else {
+            return accountId.substring(accountId.length() - NUM_TERMINATING_DIGITS);
+        }
     }
 
     @NonNull
     private String presentBalance(@NonNull BankAccount account) {
-        long balanceInCents = account.cashInCents() - account.debtInCents();
+        long balanceInCents = account.debtInCents() - account.cashInCents();
         balanceInCents = Math.max(0, balanceInCents); // if credits exceed debits, show 0 for balance
         BigDecimal balanceInDollars = new BigDecimal(balanceInCents).movePointLeft(2);
         return currencyFormat.format(balanceInDollars);

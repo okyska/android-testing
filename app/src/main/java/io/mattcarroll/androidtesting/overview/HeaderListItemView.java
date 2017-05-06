@@ -2,7 +2,6 @@ package io.mattcarroll.androidtesting.overview;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
@@ -15,8 +14,7 @@ import io.mattcarroll.androidtesting.R;
  */
 class HeaderListItemView extends FrameLayout {
 
-    private TextView titleTextView;
-    private TextView subtitleTextView;
+    private TextView transactionDateTextView;
 
     public HeaderListItemView(Context context) {
         this(context, null);
@@ -29,19 +27,14 @@ class HeaderListItemView extends FrameLayout {
 
     private void init() {
         LayoutInflater.from(getContext()).inflate(R.layout.view_transaction_header_list_item, this, true);
-        titleTextView = (TextView) findViewById(R.id.textview_title);
-        subtitleTextView = (TextView) findViewById(R.id.textview_subtitle);
+        transactionDateTextView = (TextView) findViewById(R.id.textview_transaction_date);
     }
 
     public void setViewModel(@Nullable HeaderListItemViewModel viewModel) {
         if (null != viewModel) {
-            titleTextView.setText(viewModel.getTitle());
-
-            subtitleTextView.setText(viewModel.getSubtitle());
-            subtitleTextView.setVisibility(!TextUtils.isEmpty(viewModel.getSubtitle()) ? VISIBLE : GONE);
+            transactionDateTextView.setText(viewModel.transactionDate());
         } else {
-            titleTextView.setText(null);
-            subtitleTextView.setText(null);
+            transactionDateTextView.setText(null);
         }
     }
 }

@@ -143,7 +143,8 @@ public class AccountsOverviewFragment extends Fragment {
             return;
         }
         List<Transaction> transactions = api.listTransactions(accountId);
-        transactionListPresenter = new TransactionListPresenter(getResources(), NumberFormat.getCurrencyInstance());
+        transactionListPresenter = new TransactionListPresenter(
+                getResources(), new Time(), NumberFormat.getCurrencyInstance());
         transactionListAdapter.setViewModels(transactionListPresenter.present(transactions));
     }
 

@@ -33,28 +33,28 @@ class TransactionListItemView extends FrameLayout {
     private void init() {
         LayoutInflater.from(getContext()).inflate(R.layout.view_transaction_list_item, this, true);
         mIconImageView = (ImageView) findViewById(R.id.imageview_icon);
-        mTitleTextView = (TextView) findViewById(R.id.textview_title);
+        mTitleTextView = (TextView) findViewById(R.id.textview_transaction_date);
         mSubtitleTextView = (TextView) findViewById(R.id.textview_subtitle);
         mDetailTextView = (TextView) findViewById(R.id.textview_detail);
     }
 
     public void setViewModel(@Nullable TransactionListItemViewModel viewModel) {
         if (null != viewModel) {
-            if (null != viewModel.getIcon()) {
-                mIconImageView.setImageResource(viewModel.getIcon());
+            if (null != viewModel.icon()) {
+                mIconImageView.setImageResource(viewModel.icon());
                 mIconImageView.setVisibility(VISIBLE);
             } else {
                 mIconImageView.setImageDrawable(null);
                 mIconImageView.setVisibility(GONE);
             }
 
-            mTitleTextView.setText(viewModel.getTitle());
+            mTitleTextView.setText(viewModel.title());
 
-            mSubtitleTextView.setText(viewModel.getSubtitle());
-            mSubtitleTextView.setVisibility(!TextUtils.isEmpty(viewModel.getSubtitle()) ? VISIBLE : GONE);
+            mSubtitleTextView.setText(viewModel.subtitle());
+            mSubtitleTextView.setVisibility(!TextUtils.isEmpty(viewModel.subtitle()) ? VISIBLE : GONE);
 
-            mDetailTextView.setText(viewModel.getDetail());
-            mDetailTextView.setVisibility(!TextUtils.isEmpty(viewModel.getDetail()) ? VISIBLE : GONE);
+            mDetailTextView.setText(viewModel.detail());
+            mDetailTextView.setVisibility(!TextUtils.isEmpty(viewModel.detail()) ? VISIBLE : GONE);
         } else {
             mIconImageView.setImageDrawable(null);
             mTitleTextView.setText(null);

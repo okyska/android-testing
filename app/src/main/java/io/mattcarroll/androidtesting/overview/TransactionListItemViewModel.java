@@ -32,22 +32,22 @@ class TransactionListItemViewModel {
     }
 
     @Nullable
-    public Integer getIcon() {
+    public Integer icon() {
         return icon;
     }
 
     @NonNull
-    public String getTitle() {
+    public String title() {
         return title;
     }
 
     @Nullable
-    public String getSubtitle() {
+    public String subtitle() {
         return subtitle;
     }
 
     @Nullable
-    public String getDetail() {
+    public String detail() {
         return detail;
     }
 }

@@ -2,13 +2,11 @@ package io.mattcarroll.androidtesting.overview;
 
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
-import android.text.format.DateUtils;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -29,10 +27,14 @@ class TransactionListPresenter {
             new SimpleDateFormat("EEEE", Locale.US); // e.g. Thursday
 
     private final Resources resources;
+    private final Time calendar;
     private final NumberFormat currencyFormat;
 
-    public TransactionListPresenter(@NonNull Resources resources, @NonNull NumberFormat currencyFormat) {
+    public TransactionListPresenter(@NonNull Resources resources,
+                                    @NonNull Time calendar,
+                                    @NonNull NumberFormat currencyFormat) {
         this.resources = resources;
+        this.calendar = calendar;
         this.currencyFormat = currencyFormat;
     }
 
@@ -49,7 +51,7 @@ class TransactionListPresenter {
         long currentDate = 0;
 
         for (Transaction transaction : transactionsSortedByDate) {
-            if (!isOnSameDay(transaction.date(), currentDate)) {
+            if (!calendar.isOnSameDay(transaction.date(), currentDate)) {
                 currentDate = transaction.date();
                 viewModels.add(presentDateHeader(currentDate));
             }
@@ -77,59 +79,20 @@ class TransactionListPresenter {
         return sortedTransactions;
     }
 
-    private boolean isOnSameDay(long date1, long date2) {
-        Calendar cal1 = Calendar.getInstance();
-        Calendar cal2 = Calendar.getInstance();
-        cal1.setTime(new Date(date1));
-        cal2.setTime(new Date(date2));
-        return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
-                cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
-    }
-
     @NonNull
     private HeaderListItemViewModel presentDateHeader(long date) {
         final String dateAsString;
-        if (DateUtils.isToday(date)) {
+        if (calendar.isToday(date)) {
             dateAsString = resources.getString(R.string.label_today);
-        } else if (isYesterday(date)) {
+        } else if (calendar.isYesterday(date)) {
             dateAsString = resources.getString(R.string.label_yesterday);
-        } else if (isThisWeek(date)) {
+        } else if (calendar.isThisWeek(date)) {
             dateAsString = THIS_WEEK_DATE_FORMAT.format(new Date(date));
         } else {
             dateAsString = FULL_DATE_FORMAT.format(new Date(date));
         }
 
         return new HeaderListItemViewModel(dateAsString);
-    }
-
-    private boolean isYesterday(long date) {
-        Calendar c1 = Calendar.getInstance();
-        c1.add(Calendar.DAY_OF_YEAR, -1);
-
-        Calendar c2 = Calendar.getInstance();
-        c2.setTime(new Date(date));
-
-        return isSameYear(c1, c2) && isSameDayOfYear(c1, c2);
-    }
-
-    private boolean isSameYear(@NonNull Calendar c1, @NonNull Calendar c2) {
-        return c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR);
-    }
-
-    private boolean isSameDayOfYear(@NonNull Calendar c1, @NonNull Calendar c2) {
-        return c1.get(Calendar.DAY_OF_YEAR) == c2.get(Calendar.DAY_OF_YEAR);
-    }
-
-    private boolean isThisWeek(long date) {
-        Calendar c1 = Calendar.getInstance();
-        Calendar c2 = Calendar.getInstance();
-        c2.setTime(new Date(date));
-
-        return isSameYear(c1, c2) && isSameWeekOfYear(c1, c2);
-    }
-
-    private boolean isSameWeekOfYear(@NonNull Calendar c1, @NonNull Calendar c2) {
-        return c1.get(Calendar.WEEK_OF_YEAR) == c2.get(Calendar.WEEK_OF_YEAR);
     }
 
     @NonNull
