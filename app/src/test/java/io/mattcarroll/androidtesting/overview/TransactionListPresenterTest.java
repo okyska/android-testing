@@ -38,6 +38,8 @@ public class TransactionListPresenterTest {
     private static final String FOUR_DAYS_AGO_STRING = "Friday";
     private static final String TWELVE_DAYS_AGO_STRING = "Apr 27, 2017";
     private static final String DESCRIPTION = "Some description";
+    private static final int ONE_DOLLAR_IN_CENTS = 100;
+    private static final String ONE_DOLLAR_AS_STRING = "$1.00";
 
     private static long daysAgo(int days) {
         Calendar calendar = new GregorianCalendar();
@@ -138,12 +140,12 @@ public class TransactionListPresenterTest {
 
     @Test
     public void itPresentsTransactionAmountAsDetail() {
-        List<Transaction> transactions = transactionsWithDescriptions(DESCRIPTION);
+        List<Transaction> transactions = transactionsWithAmountsInCents(ONE_DOLLAR_IN_CENTS);
 
         List<Object> viewModels = presenter.present(transactions);
 
         TransactionListItemViewModel viewModel = (TransactionListItemViewModel) viewModels.get(1);
-        assertEquals(DESCRIPTION, viewModel.title());
+        assertEquals(ONE_DOLLAR_AS_STRING, viewModel.detail());
     }
 
     @NonNull
@@ -160,6 +162,15 @@ public class TransactionListPresenterTest {
         List<Transaction> transactions = new ArrayList<>(descriptions.length);
         for (String description : descriptions) {
             transactions.add(new Transaction(description, 1, TODAY));
+        }
+        return transactions;
+    }
+
+    @NonNull
+    private List<Transaction> transactionsWithAmountsInCents(@NonNull Integer... amounts) {
+        List<Transaction> transactions = new ArrayList<>(amounts.length);
+        for (Integer amountInCents : amounts) {
+            transactions.add(new Transaction("", amountInCents, TODAY));
         }
         return transactions;
     }
