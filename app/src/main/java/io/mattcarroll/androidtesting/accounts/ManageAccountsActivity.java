@@ -78,15 +78,13 @@ public class ManageAccountsActivity extends AppCompatActivity {
 
     private void initAccountsView(@NonNull RecyclerView accountsView) {
         accountListAdapter = new AccountListAdapter(this);
-        AccountNumberMask mask = AccountNumberMaskFactory.provideLastFourDigitsMask();
-        accountListPresenter = new AccountListPresenter(mask,
-                new AccountListItemView.OnRemoveClickListener() {
-                    @Override
-                    public void onRemoveClick(@NonNull String accountId) {
-                        removeAccount(accountId);
-                        updatePresentation();
-                    }
-                });
+        accountListPresenter = new AccountListPresenter(new AccountListItemView.OnRemoveClickListener() {
+            @Override
+            public void onRemoveClick(@NonNull String accountId) {
+                removeAccount(accountId);
+                updatePresentation();
+            }
+        });
 
         final LinearLayoutManager accountsLayoutManager =
                 new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
