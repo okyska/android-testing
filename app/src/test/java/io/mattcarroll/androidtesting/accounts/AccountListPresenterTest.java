@@ -4,8 +4,6 @@ import android.support.annotation.NonNull;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -14,7 +12,6 @@ import java.util.Set;
 
 import static junit.framework.Assert.assertEquals;
 
-@RunWith(MockitoJUnitRunner.class)
 public class AccountListPresenterTest {
     private AccountListPresenter presenter;
     private Set<BankAccount> accounts;
