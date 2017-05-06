@@ -42,7 +42,7 @@ public class AccountsPresenterTest {
     }
 
     @Test
-    public void itPresentsCorrectBalanceGivenTransactions() {
+    public void itPresentsBalanceGivenTransactions() {
         List<Transaction> transactions = transactionsWithAmountsInCents(-100, -100, 100);
         linkAccountWithTransactions(transactions);
         String expectedBalance = "$1.00";
@@ -66,7 +66,7 @@ public class AccountsPresenterTest {
     }
 
     @Test
-    public void itPresentsCorrectAmountSpentGivenTransactions() {
+    public void itPresentsAmountSpentGivenTransactions() {
         List<Transaction> transactions = transactionsOnTodayWithAmountsInCents(-50, -25, -25);
         linkAccountWithTransactions(transactions);
         String expectedAmountSpent = "$1.00";
