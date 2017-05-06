@@ -2,6 +2,10 @@ package io.mattcarroll.androidtesting;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.test.espresso.Espresso;
+import android.support.test.espresso.IdlingPolicies;
+import android.support.test.espresso.IdlingPolicy;
+import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.action.GeneralClickAction;
@@ -10,7 +14,6 @@ import android.support.test.espresso.action.Press;
 import android.support.test.espresso.action.Tap;
 import android.support.test.espresso.matcher.BoundedMatcher;
 import android.view.View;
-import android.widget.Checkable;
 import android.widget.CheckedTextView;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -18,10 +21,12 @@ import android.widget.TextView;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
-import static org.hamcrest.Matchers.isA;
 
 public class EspressoUtils {
 
@@ -138,6 +143,80 @@ public class EspressoUtils {
             CheckedTextView checkedTextView = (CheckedTextView) view;
             if (checked != checkedTextView.isChecked()) {
                 generalClickAction.perform(uiController, view);
+            }
+        }
+    }
+
+    // Waits for all registered IdlingResources to be idle before proceeding.  This method respects
+    // the timeout in Espresso's Master IdlingPolicy.
+    public static void waitForIdle() {
+        new EspressoIdler().waitForIdle();
+    }
+
+    private static class EspressoIdler {
+
+        private final IdlingPolicy idlingPolicy;
+        private final long maxWaitTimeInMillis;
+        private final int sleepTimeInMillis;
+        private boolean waiting;
+        private long startTime;
+        private long waitTime;
+
+        EspressoIdler() {
+            idlingPolicy = IdlingPolicies.getMasterIdlingPolicy();
+            maxWaitTimeInMillis = idlingPolicy.getIdleTimeoutUnit().toMillis(idlingPolicy.getIdleTimeout());
+            sleepTimeInMillis = 50;
+        }
+
+        private synchronized void waitForIdle() {
+            waiting = true;
+            startTime = System.currentTimeMillis();
+            waitTime = 0;
+
+            while (waiting) {
+                waiting = !allResourcesIdle();
+                if (waiting) {
+                    updateWaitTime();
+                    ensureTimeoutNotExceeded(waitTime);
+                    sleep();
+                }
+            }
+        }
+
+        private void updateWaitTime() {
+            waitTime = System.currentTimeMillis() - startTime;
+        }
+
+        private boolean allResourcesIdle() {
+            for (IdlingResource idlingResource : Espresso.getIdlingResources()) {
+                if(!idlingResource.isIdleNow()) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private void ensureTimeoutNotExceeded(long waitTime) {
+            if (waitTime > maxWaitTimeInMillis) {
+                timeoutOnIdlingResources(idlingPolicy);
+            }
+        }
+
+        private void timeoutOnIdlingResources(@NonNull IdlingPolicy idlingPolicy) {
+            List<String> runningResourceNames = new ArrayList<>();
+            for (IdlingResource idlingResource : Espresso.getIdlingResources()) {
+                if(!idlingResource.isIdleNow()) {
+                    runningResourceNames.add(idlingResource.getName());
+                }
+            }
+            idlingPolicy.handleTimeout(runningResourceNames, "IdlingResources took too long to become idle.");
+        }
+
+        private void sleep() {
+            try {
+                Thread.sleep(sleepTimeInMillis);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
     }

@@ -2,15 +2,30 @@ package io.mattcarroll.androidtesting.accounts;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.WorkerThread;
+import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
+import io.mattcarroll.androidtesting.Bus;
 
 /**
  * TODO
  */
 public class AccountsApi {
+
+    private static final String TAG = "AccountsApi";
 
     private static AccountsApi instance;
 
@@ -40,7 +55,8 @@ public class AccountsApi {
     @WorkerThread
     public void linkBankAccount(@NonNull AccountCredentials accountCredentials) {
         BankAccount linkedBankAccount = doLinkAccount(accountCredentials);
-        bankAccountRepository.addBankAccount(linkedBankAccount);
+        bankAccountRepository.addBankAccounts(linkedBankAccount);
+        Bus.getBus().post(new BankAccountsChangedEvent());
     }
 
     @WorkerThread
@@ -62,6 +78,12 @@ public class AccountsApi {
 
     public void removeAccount(@NonNull String bankAccountId) {
         bankAccountRepository.removeBankAccount(bankAccountId);
+        Bus.getBus().post(new BankAccountsChangedEvent());
+    }
+
+    public void removeAllAccounts() {
+        bankAccountRepository.removeAllBankAccounts();
+        Bus.getBus().post(new BankAccountsChangedEvent());
     }
 
     public int balanceInCents(@NonNull String bankAccountId) {
@@ -90,5 +112,28 @@ public class AccountsApi {
             transactions.addAll(bankAccount.getTransactionsInDateRange(startTime, endTime));
         }
         return transactions;
+    }
+
+    // For the persistence system to restore bank accounts without having to link them.
+    void addAccounts(@NonNull BankAccount ... bankAccounts) {
+        bankAccountRepository.addBankAccounts(bankAccounts);
+        Bus.getBus().post(new BankAccountsChangedEvent());
+    }
+
+    void loadAccountsFromFile(@NonNull File file) throws FileNotFoundException {
+        Log.d(TAG, "Loading accounts from file: " + file.getAbsolutePath());
+        Gson gson = new Gson();
+        JsonReader reader = new JsonReader(new FileReader(file));
+        Set<BankAccount> accounts = gson.fromJson(reader, new TypeToken<Set<BankAccount>>() { }.getType());
+        Log.d(TAG, "Loaded " + accounts.size() + " accounts from file.");
+        addAccounts(accounts.toArray(new BankAccount[] { }));
+    }
+
+    void writeAccountsToFile(@NonNull File file) throws IOException {
+        Gson gson = new Gson();
+        String accountsJson = gson.toJson(accounts());
+        JsonWriter jsonWriter = new JsonWriter(new FileWriter(file));
+        jsonWriter.jsonValue(accountsJson);
+        jsonWriter.close();
     }
 }

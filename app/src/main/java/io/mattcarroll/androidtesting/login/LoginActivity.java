@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import io.mattcarroll.androidtesting.Bus;
 import io.mattcarroll.androidtesting.R;
+import io.mattcarroll.androidtesting.accounts.AccountPersistenceService;
 import io.mattcarroll.androidtesting.signup.SignUpActivity;
 
 /**
@@ -48,6 +49,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (REQUEST_SIGN_UP == requestCode) {
             if (RESULT_OK == resultCode) {
+                loadUsersBankAccounts();
                 setResult(RESULT_OK);
                 showSuccessDialog();
             } else if (SignUpActivity.RESULT_FAILED == resultCode) {
@@ -87,6 +89,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @SuppressWarnings("unused")
     public void onEventMainThread(@NonNull LoginFragment.LoginSuccessfulEvent event) {
+        loadUsersBankAccounts();
         setResult(RESULT_OK);
         finish();
     }
@@ -97,5 +100,8 @@ public class LoginActivity extends AppCompatActivity {
         startActivityForResult(signUpIntent, REQUEST_SIGN_UP);
     }
 
+    private void loadUsersBankAccounts() {
+        AccountPersistenceService.loadAccounts(this);
+    }
 }
 

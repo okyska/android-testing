@@ -25,13 +25,19 @@ public class BankAccountRepository {
         return bankAccounts.get(accountId);
     }
 
-    public void addBankAccount(@NonNull BankAccount bankAccount) {
-        bankAccounts.put(bankAccount.getAccountId(), bankAccount);
+    public void addBankAccounts(@NonNull BankAccount ... newAccounts) {
+        for (BankAccount bankAccount : newAccounts) {
+            bankAccounts.put(bankAccount.getAccountId(), bankAccount);
+        }
     }
 
     public boolean removeBankAccount(@NonNull String bankAccountId) {
         BankAccount removedAccount = bankAccounts.remove(bankAccountId);
         return null != removedAccount;
+    }
+
+    public void removeAllBankAccounts() {
+        bankAccounts.clear();
     }
 
     @NonNull
