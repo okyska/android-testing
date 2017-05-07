@@ -47,11 +47,18 @@ public class LinkAccountsAcceptanceTest {
         appContext = InstrumentationRegistry.getTargetContext();
         idlingResource = new IntentServiceIdlingResource(appContext, INTENT_SERVICE_IDLING_RESOURCE_NAME);
         registerIdlingResources(idlingResource);
+        if (AccountPersistenceService.accountsFile(appContext).exists()) {
+            deleteAccounts();
+        }
     }
 
     @After
     public void teardown() {
         unregisterIdlingResources(idlingResource);
+        deleteAccounts();
+    }
+
+    private void deleteAccounts() {
         //noinspection ResultOfMethodCallIgnored
         AccountPersistenceService.accountsFile(appContext).delete();
         AccountsApi.getInstance().removeAllAccounts();
