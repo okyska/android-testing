@@ -11,6 +11,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import io.mattcarroll.androidtesting.R;
+
 /**
  * Persists Bank Account information to a local file.
  */
@@ -22,8 +24,6 @@ public class AccountPersistenceService extends IntentService {
     public static final String ACTION_SAVE = "save";
     public static final String ACTION_LOAD = "load";
     public static final String EXTRA_FILE_NAME = "file_name";
-
-    private static final String DEFAULT_ACCOUNTS_FILENAME = "accounts.json";
 
     public static void saveAccounts(@NonNull Context context) {
         context.startService(new Intent(context, AccountPersistenceService.class)
@@ -49,7 +49,7 @@ public class AccountPersistenceService extends IntentService {
 
     // Static and Visible for testing access.
     static File accountsFile(@NonNull Context context) {
-        return accountsFile(context, DEFAULT_ACCOUNTS_FILENAME);
+        return accountsFile(context, context.getString(R.string.default_accounts_file_name));
     }
 
     // Static and Visible for testing access.
@@ -80,7 +80,7 @@ public class AccountPersistenceService extends IntentService {
     private String getFileName(@Nullable Intent intent) {
         return intent != null && intent.hasExtra(EXTRA_FILE_NAME)
                 ? intent.getStringExtra(EXTRA_FILE_NAME)
-                : DEFAULT_ACCOUNTS_FILENAME;
+                : getString(R.string.default_accounts_file_name);
     }
 
     private void saveAccountsToFile(@NonNull String filename) {

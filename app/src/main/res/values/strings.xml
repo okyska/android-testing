@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Android Testing</string>
 
+    <!-- App Config -->
+    <string name="default_accounts_file_name">accounts.json</string>
+
     <!-- Login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
