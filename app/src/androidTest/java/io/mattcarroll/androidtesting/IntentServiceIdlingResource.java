@@ -10,15 +10,18 @@ import io.mattcarroll.androidtesting.accounts.AccountPersistenceService;
 public class IntentServiceIdlingResource implements IdlingResource {
 
     private Context context;
+    private String name;
     private ResourceCallback resourceCallback;
 
-    public IntentServiceIdlingResource(@NonNull Context context) {
+    public IntentServiceIdlingResource(@NonNull Context context,
+                                       @NonNull String name) {
         this.context = context;
+        this.name = name;
     }
 
     @Override
     public String getName() {
-        return "IntentServiceIdlingResource";
+        return name;
     }
 
     @Override

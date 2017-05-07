@@ -33,7 +33,8 @@ import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
 
 public class AccountPersistenceServiceTest {
-
+    private static final String INTENT_SERVICE_IDLING_RESOURCE_NAME =
+            "IntentServiceIdlingResource_AccountPersistenceServiceTest";
     private static final String TEST_FILE_NAME = "test-accounts.json";
 
     private static final long FAKE_DATE_1 = 100;
@@ -61,7 +62,7 @@ public class AccountPersistenceServiceTest {
     @Before
     public void setup() {
         appContext = InstrumentationRegistry.getTargetContext();
-        idlingResource = new IntentServiceIdlingResource(appContext);
+        idlingResource = new IntentServiceIdlingResource(appContext, INTENT_SERVICE_IDLING_RESOURCE_NAME);
         registerIdlingResources(idlingResource);
     }
 

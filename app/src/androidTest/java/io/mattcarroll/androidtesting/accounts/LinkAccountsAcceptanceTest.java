@@ -26,7 +26,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static io.mattcarroll.androidtesting.EspressoUtils.waitForIdle;
 
 public class LinkAccountsAcceptanceTest {
-
+    private static final String INTENT_SERVICE_IDLING_RESOURCE_NAME =
+            "IntentServiceIdlingResource_LinkAccountsAcceptanceTest";
     private static final String VALID_EMAIL = "me@email.com";
     private static final String VALID_PASSWORD = "password";
 
@@ -44,7 +45,7 @@ public class LinkAccountsAcceptanceTest {
     @Before
     public void setup() {
         appContext = InstrumentationRegistry.getTargetContext();
-        idlingResource = new IntentServiceIdlingResource(appContext);
+        idlingResource = new IntentServiceIdlingResource(appContext, INTENT_SERVICE_IDLING_RESOURCE_NAME);
         registerIdlingResources(idlingResource);
     }
 
