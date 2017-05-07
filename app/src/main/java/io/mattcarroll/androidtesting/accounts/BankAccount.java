@@ -2,8 +2,6 @@ package io.mattcarroll.androidtesting.accounts;
 
 import android.support.annotation.NonNull;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,17 +26,17 @@ public class BankAccount {
     }
 
     @NonNull
-    public String getBankName() {
+    public String bankName() {
         return bankName;
     }
 
     @NonNull
-    public String getAccountName() {
+    public String accountName() {
         return accountName;
     }
 
     @NonNull
-    public String getAccountId() {
+    public String accountId() {
         return accountId;
     }
 
@@ -63,12 +61,12 @@ public class BankAccount {
     }
 
     @NonNull
-    public List<Transaction> getAllTransactions() {
+    public List<Transaction> allTransactions() {
         return new ArrayList<>(transactions);
     }
 
     @NonNull
-    public List<Transaction> getTransactionsInDateRange(long startTime, long endTime) {
+    public List<Transaction> transactionsInDateRange(long startTime, long endTime) {
         ArrayList<Transaction> transactionsInRange = new ArrayList<>();
         for (Transaction transaction : transactions) {
             if (transaction.date() >= startTime && transaction.date() <= endTime) {
@@ -79,8 +77,8 @@ public class BankAccount {
     }
 
     public boolean sameTransactionHistory(@NonNull BankAccount other) {
-        return transactions.containsAll(other.getAllTransactions())
-                && other.getAllTransactions().containsAll(transactions);
+        return transactions.containsAll(other.allTransactions())
+                && other.allTransactions().containsAll(transactions);
     }
 
     @Override

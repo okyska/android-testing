@@ -93,7 +93,7 @@ public class AccountsApi {
         }
 
         int balance = 0;
-        for (Transaction transaction : bankAccount.getAllTransactions()) {
+        for (Transaction transaction : bankAccount.allTransactions()) {
             balance += transaction.amountInCents();
         }
         return balance;
@@ -109,7 +109,7 @@ public class AccountsApi {
         List<Transaction> transactions = new ArrayList<>();
         for (String accountId : bankAccountIds) {
             BankAccount bankAccount = bankAccountRepository.getBankAccount(accountId);
-            transactions.addAll(bankAccount.getTransactionsInDateRange(startTime, endTime));
+            transactions.addAll(bankAccount.transactionsInDateRange(startTime, endTime));
         }
         return transactions;
     }

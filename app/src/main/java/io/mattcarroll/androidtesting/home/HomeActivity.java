@@ -43,7 +43,7 @@ public class HomeActivity extends AppCompatActivity
 
         initNavItemMap();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_manage_accounts);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

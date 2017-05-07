@@ -1,10 +1,8 @@
 package io.mattcarroll.androidtesting.accounts;
 
-import android.app.ActivityManager;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.IdlingResource;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -24,6 +22,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeoutException;
+
+import io.mattcarroll.androidtesting.IntentServiceIdlingResource;
 
 import static android.support.test.espresso.Espresso.registerIdlingResources;
 import static android.support.test.espresso.Espresso.unregisterIdlingResources;
@@ -152,45 +152,6 @@ public class AccountPersistenceServiceTest {
         assertEquals(1, actualBankAccounts.size());
         assertEquals(expectedAccount, actualBankAccounts.iterator().next());
         assertTrue(expectedAccount.sameTransactionHistory(actualBankAccounts.iterator().next()));
-    }
-
-    private static class IntentServiceIdlingResource implements IdlingResource {
-
-        private Context context;
-        private ResourceCallback resourceCallback;
-
-        IntentServiceIdlingResource(@NonNull Context context) {
-            this.context = context;
-        }
-
-        @Override
-        public String getName() {
-            return "IntentServiceIdlingResource";
-        }
-
-        @Override
-        public boolean isIdleNow() {
-            boolean idle = !isIntentServiceRunning();
-            if (idle && resourceCallback != null) {
-                resourceCallback.onTransitionToIdle();
-            }
-            return idle;
-        }
-
-        private boolean isIntentServiceRunning() {
-            ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-            for (ActivityManager.RunningServiceInfo info : manager.getRunningServices(Integer.MAX_VALUE)) {
-                if (AccountPersistenceService.class.getName().equals(info.service.getClassName())) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        @Override
-        public void registerIdleTransitionCallback(ResourceCallback callback) {
-            this.resourceCallback = callback;
-        }
     }
 
 }
