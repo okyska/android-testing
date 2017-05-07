@@ -31,6 +31,7 @@ public class RandomTransactions {
             "Chick fil A",
             "Venmo",
             "Trejo's Tacos",
+            "Trejo's Donuts",
             "Amazon.com",
             "iTunes Store",
             "Southwest Airlines",

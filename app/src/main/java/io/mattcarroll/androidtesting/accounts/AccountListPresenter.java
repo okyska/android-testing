@@ -5,8 +5,8 @@ import android.support.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Presents a list of {@link AccountListItemViewModel}s from a set of {@link BankAccount}s.
@@ -22,7 +22,7 @@ class AccountListPresenter {
     }
 
     @NonNull
-    public List<AccountListItemViewModel> present(@NonNull Collection<BankAccount> accounts) {
+    public List<AccountListItemViewModel> present(@NonNull Set<BankAccount> accounts) {
         List<AccountListItemViewModel> accountViewModels = new ArrayList<>(accounts.size());
 
         for (BankAccount account : accounts) {

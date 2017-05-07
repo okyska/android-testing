@@ -9,25 +9,14 @@ import android.support.annotation.Nullable;
 class HeaderListItemViewModel {
 
     private final String title;
-    private final String subtitle;
 
     public HeaderListItemViewModel(@NonNull String title) {
-        this(title, null);
-    }
-
-    public HeaderListItemViewModel(@NonNull String title,
-                                   @Nullable String subtitle) {
         this.title = title;
-        this.subtitle = subtitle;
     }
 
     @NonNull
-    public String getTitle() {
+    public String transactionDate() {
         return title;
     }
 
-    @Nullable
-    public String getSubtitle() {
-        return subtitle;
-    }
 }
