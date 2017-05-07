@@ -23,7 +23,6 @@ import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static io.mattcarroll.androidtesting.EspressoUtils.waitForIdle;
 
 public class LinkAccountsAcceptanceTest {
     private static final String INTENT_SERVICE_IDLING_RESOURCE_NAME =
@@ -66,25 +65,11 @@ public class LinkAccountsAcceptanceTest {
 
     @Test
     public void whenUserLinksAccountItAppearsInOverview() {
-        // After the splash screen, we're prompted to login
-
         login(VALID_EMAIL, VALID_PASSWORD);
-
-        // After login completes, the Overview screen is shown
-
-        manageAccounts();
-
-        // Now we're on the Manage Accounts screen
-
+        openManageAccountsScreen();
         linkAccount(BANK_NAME, ACCOUNT_NUMBER, VALID_PASSWORD);
-
-        // After account linking completes, we're taken back to Manage Accounts
-
-        pressBack();
-
-        // Now we're back to the Overview screen
-
-        verifyAccountIsShown(ACCOUNT_NUMBER_LAST_DIGITS);
+        goBackToOverviewScreen();
+        verifyAccountOverviewIsShown(ACCOUNT_NUMBER_LAST_DIGITS);
     }
 
     private void login(@NonNull String email, @NonNull String password) {
@@ -96,7 +81,7 @@ public class LinkAccountsAcceptanceTest {
                 .perform(click());
     }
 
-    private void manageAccounts() {
+    private void openManageAccountsScreen() {
         onView(withId(R.id.fab_manage_accounts))
                 .perform(click());
     }
@@ -116,11 +101,13 @@ public class LinkAccountsAcceptanceTest {
 
         onView(withId(R.id.button_link_account))
                 .perform(click());
-
-        waitForIdle();
     }
 
-    private void verifyAccountIsShown(@NonNull String accountNumberLastDigits) {
+    private void goBackToOverviewScreen() {
+        pressBack();
+    }
+
+    private void verifyAccountOverviewIsShown(@NonNull String accountNumberLastDigits) {
         onView(withId(R.id.textview_account_last_digits))
                 .check(matches(withText(accountNumberLastDigits)));
     }
