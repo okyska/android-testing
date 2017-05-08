@@ -7,11 +7,13 @@ import android.support.test.espresso.NoActivityResumedException;
 import android.support.test.rule.ActivityTestRule;
 import android.text.TextUtils;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
 import io.mattcarroll.androidtesting.R;
+import io.mattcarroll.androidtesting.usersession.UserSession;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
@@ -47,6 +49,11 @@ public class PagesSignUpTest {
     @Before
     public void setup() {
         resources = InstrumentationRegistry.getTargetContext().getResources();
+    }
+
+    @After
+    public void teardown() {
+        UserSession.getInstance().logout();
     }
 
     @Test

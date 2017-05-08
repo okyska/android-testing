@@ -22,6 +22,7 @@ import io.mattcarroll.androidtesting.IntentServiceIdlingResource;
 import io.mattcarroll.androidtesting.R;
 import io.mattcarroll.androidtesting.SplashActivity;
 import io.mattcarroll.androidtesting.overview.TransactionListItemViewModel;
+import io.mattcarroll.androidtesting.usersession.UserSession;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
@@ -90,6 +91,7 @@ public class LinkAccountsAcceptanceTest {
     public void teardown() {
         unregisterIdlingResources(idlingResource);
         deleteAccounts();
+        UserSession.getInstance().logout();
     }
 
     private void deleteAccounts() {

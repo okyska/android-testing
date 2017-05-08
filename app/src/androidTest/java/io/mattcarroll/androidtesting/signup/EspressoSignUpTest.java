@@ -12,11 +12,13 @@ import android.widget.EditText;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
 import io.mattcarroll.androidtesting.R;
+import io.mattcarroll.androidtesting.usersession.UserSession;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
@@ -42,6 +44,11 @@ public class EspressoSignUpTest {
     @Before
     public void setup() {
         resources = InstrumentationRegistry.getTargetContext().getResources();
+    }
+
+    @After
+    public void teardown() {
+        UserSession.getInstance().logout();
     }
 
     @Test
