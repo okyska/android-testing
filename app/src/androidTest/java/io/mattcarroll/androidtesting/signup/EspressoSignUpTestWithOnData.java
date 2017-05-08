@@ -1,37 +1,33 @@
-package io.mattcarroll.androidtesting;
+package io.mattcarroll.androidtesting.signup;
 
 
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.NoActivityResumedException;
-import android.support.test.espresso.matcher.BoundedMatcher;
 import android.support.test.rule.ActivityTestRule;
-import android.view.View;
-import android.widget.EditText;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import io.mattcarroll.androidtesting.signup.SignUpActivity;
+import io.mattcarroll.androidtesting.R;
 
+import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
-import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.Assert.assertTrue;
+import static org.hamcrest.Matchers.is;
 
-public class EspressoSignUpTest {
+public class EspressoSignUpTestWithOnData {
 
     @Rule
     public final ActivityTestRule<SignUpActivity> activityRule =
@@ -60,35 +56,6 @@ public class EspressoSignUpTest {
 
         // Ensure that this Activity destroyed itself upon successful completion of sign up.
         assertTrue(activityRule.getActivity().isFinishing());
-    }
-
-    @Test
-    public void userSignUpPersonalInfoVerifyRequiredFieldsAreRequired() {
-        // Verify required fields show errors and non-required fields do not.
-        onView(withId(R.id.button_next))
-                .perform(scrollTo())
-                .perform(click());
-        onView(withId(R.id.edittext_first_name))
-                .check(matches(hasErrorText(resources.getString(R.string.input_error_required))));
-        onView(withId(R.id.edittext_last_name))
-                .check(matches(hasErrorText(resources.getString(R.string.input_error_required))));
-        onView(withId(R.id.edittext_address_line_1))
-                .check(matches(hasErrorText(resources.getString(R.string.input_error_required))));
-        onView(withId(R.id.edittext_address_line_2))
-                .check(matches(hasNoError()));
-        onView(withId(R.id.edittext_address_city))
-                .check(matches(hasErrorText(resources.getString(R.string.input_error_required))));
-        onView(withId(R.id.edittext_address_state))
-                .check(matches(hasErrorText(resources.getString(R.string.input_error_required))));
-        onView(withId(R.id.edittext_address_zip))
-                .check(matches(hasErrorText(resources.getString(R.string.input_error_required))));
-
-        // Fill in personal information and ensure we can move forward after triggering errors.
-        fillInValidPersonalInfo();
-        scrollToAndPressNext();
-
-        // Verify we're no longer on the personal info screen.
-        onView(withId(R.id.edittext_first_name)).check(doesNotExist());
     }
 
     @Test
@@ -136,7 +103,7 @@ public class EspressoSignUpTest {
         pressBack();
 
         // Verify we're on the interests page
-        onView(withText("Football")).check(matches(isDisplayed()));
+        onData(is("Football")).check(matches(isDisplayed()));
 
         // Go back again.
         pressBack();
@@ -177,8 +144,7 @@ public class EspressoSignUpTest {
 
     private void selectInterest(@NonNull String ... interests) {
         for (String interest : interests) {
-            onView(withText(interest))
-                    .perform(click());
+            onData(is(interest)).perform(click());
         }
     }
 
@@ -202,24 +168,4 @@ public class EspressoSignUpTest {
                 typeText(password));
     }
 
-    private static Matcher<View> hasNoError() {
-        return new EditTextHasNoErrorMatcher();
-    }
-
-    private static class EditTextHasNoErrorMatcher extends BoundedMatcher<View, EditText> {
-
-        public EditTextHasNoErrorMatcher() {
-            super(EditText.class);
-        }
-
-        @Override
-        protected boolean matchesSafely(EditText item) {
-            return null == item.getError();
-        }
-
-        @Override
-        public void describeTo(Description description) {
-            description.appendText("has no error text: ");
-        }
-    }
 }
