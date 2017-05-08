@@ -17,8 +17,7 @@ import io.mattcarroll.androidtesting.R;
 class TransactionListItemView extends FrameLayout {
 
     private ImageView mIconImageView;
-    private TextView mTitleTextView;
-    private TextView mSubtitleTextView;
+    private TextView mDescriptionTextView;
     private TextView mDetailTextView;
 
     public TransactionListItemView(Context context) {
@@ -33,9 +32,8 @@ class TransactionListItemView extends FrameLayout {
     private void init() {
         LayoutInflater.from(getContext()).inflate(R.layout.view_transaction_list_item, this, true);
         mIconImageView = (ImageView) findViewById(R.id.imageview_icon);
-        mTitleTextView = (TextView) findViewById(R.id.textview_transaction_title);
-        mSubtitleTextView = (TextView) findViewById(R.id.textview_subtitle);
-        mDetailTextView = (TextView) findViewById(R.id.textview_detail);
+        mDescriptionTextView = (TextView) findViewById(R.id.textview_transaction_description);
+        mDetailTextView = (TextView) findViewById(R.id.textview_amount);
     }
 
     public void setViewModel(@Nullable TransactionListItemViewModel viewModel) {
@@ -48,17 +46,13 @@ class TransactionListItemView extends FrameLayout {
                 mIconImageView.setVisibility(GONE);
             }
 
-            mTitleTextView.setText(viewModel.title());
+            mDescriptionTextView.setText(viewModel.description());
 
-            mSubtitleTextView.setText(viewModel.subtitle());
-            mSubtitleTextView.setVisibility(!TextUtils.isEmpty(viewModel.subtitle()) ? VISIBLE : GONE);
-
-            mDetailTextView.setText(viewModel.detail());
-            mDetailTextView.setVisibility(!TextUtils.isEmpty(viewModel.detail()) ? VISIBLE : GONE);
+            mDetailTextView.setText(viewModel.amount());
+            mDetailTextView.setVisibility(!TextUtils.isEmpty(viewModel.amount()) ? VISIBLE : GONE);
         } else {
             mIconImageView.setImageDrawable(null);
-            mTitleTextView.setText(null);
-            mSubtitleTextView.setText(null);
+            mDescriptionTextView.setText(null);
             mDetailTextView.setText(null);
         }
     }

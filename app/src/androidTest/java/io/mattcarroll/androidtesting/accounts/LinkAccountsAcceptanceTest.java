@@ -185,7 +185,7 @@ public class LinkAccountsAcceptanceTest {
     private void verifyTransactionIsShown(@NonNull ExpectedTransaction transaction) {
         onData(hasDescriptionAndAmount(transaction.description, transaction.amount))
                 .inAdapterView(withId(R.id.listview_transactions))
-                .onChildView(withId(R.id.textview_transaction_title))
+                .onChildView(withId(R.id.textview_transaction_description))
                 .check(matches(isDisplayed()));
     }
 
@@ -217,7 +217,7 @@ public class LinkAccountsAcceptanceTest {
 
         @Override
         protected boolean matchesSafely(TransactionListItemViewModel item) {
-            return description.equals(item.title()) && amount.equals(item.detail());
+            return description.equals(item.description()) && amount.equals(item.amount());
         }
 
         @Override

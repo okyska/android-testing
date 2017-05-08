@@ -21,7 +21,9 @@ import java.util.Set;
 import io.mattcarroll.androidtesting.Bus;
 
 /**
- * TODO
+ * Interface for retrieving and manipulating Bank Accounts and the
+ * information associated with them. {@code AccountsApi} should be obtained
+ * via {@link AccountsService}.
  */
 public class AccountsApi {
 
