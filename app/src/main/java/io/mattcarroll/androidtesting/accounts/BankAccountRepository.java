@@ -27,7 +27,7 @@ public class BankAccountRepository {
 
     public void addBankAccounts(@NonNull BankAccount ... newAccounts) {
         for (BankAccount bankAccount : newAccounts) {
-            bankAccounts.put(bankAccount.getAccountId(), bankAccount);
+            bankAccounts.put(bankAccount.accountId(), bankAccount);
         }
     }
 

@@ -21,15 +21,15 @@ public class AccountCredentials implements Serializable {
         this.password = password;
     }
 
-    public String getFinancialInstitutionName() {
+    public String financialInstitutionName() {
         return financialInstitutionName;
     }
 
-    public String getAccountNumber() {
+    public String accountNumber() {
         return accountNumber;
     }
 
-    public String getPassword() {
+    public String password() {
         return password;
     }
 

@@ -42,14 +42,13 @@ class AccountsPresenter {
         String balanceAsString = presentBalance(account);
         String amountSpentAsString = presentAmountSpentThisMonth(account);
         String displayName = presentDisplayName(account);
-
-        return new AccountViewModel(account.getAccountId(), displayName,
+        return new AccountViewModel(account.accountId(), displayName,
                 terminatingDigits, balanceAsString, amountSpentAsString);
     }
 
     @NonNull
     private String presentTerminatingDigits(@NonNull BankAccount account) {
-        String accountId = account.getAccountId();
+        String accountId = account.accountId();
         int accountNumberLength = accountId.length();
         if (accountNumberLength < NUM_TERMINATING_DIGITS) {
             return accountId;
@@ -75,7 +74,7 @@ class AccountsPresenter {
 
     private long calculateAmountSpentThisMonthInCents(@NonNull BankAccount account) {
         List<Transaction> thisMonthTransactions =
-                account.getTransactionsInDateRange(beginningOfThisMonth(), now());
+                account.transactionsInDateRange(beginningOfThisMonth(), now());
         long amountSpentThisMonth = 0;
         for (Transaction transaction : thisMonthTransactions) {
             if (transaction.isDebit()) {
@@ -97,6 +96,6 @@ class AccountsPresenter {
 
     @NonNull
     private String presentDisplayName(@NonNull BankAccount account) {
-        return account.getBankName() + " " + account.getAccountName();
+        return account.bankName() + " " + account.accountName();
     }
 }

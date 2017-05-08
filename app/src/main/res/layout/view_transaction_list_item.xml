@@ -23,7 +23,7 @@
         android:orientation="vertical"
         >
         <TextView
-            android:id="@+id/textview_transaction_date"
+            android:id="@+id/textview_transaction_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             />

@@ -36,8 +36,8 @@ class AccountListPresenter {
     @NonNull
     private AccountListItemViewModel createViewModel(@NonNull BankAccount account,
                                                      @Nullable AccountListItemView.OnRemoveClickListener listener) {
-        String accountNumber = account.getAccountId();
-        String displayName = account.getBankName() + " " + account.getAccountName();
+        String accountNumber = account.accountId();
+        String displayName = account.bankName() + " " + account.accountName();
         String maskedAccountNumber = mask(accountNumber);
         return new AccountListItemViewModel(
                 accountNumber, displayName, maskedAccountNumber, listener);

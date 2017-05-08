@@ -67,13 +67,7 @@ public class AccountsApi {
             e.printStackTrace();
         }
 
-        String institutionName = accountCredentials.getFinancialInstitutionName();
-
-        return new BankAccount(
-                institutionName,
-                new RandomAccountName().generate(),
-                accountCredentials.getAccountNumber(),
-                new RandomTransactions().generate());
+        return BankAccountsDatasource.getInstance().linkAccount(accountCredentials);
     }
 
     public void removeAccount(@NonNull String bankAccountId) {
@@ -93,7 +87,7 @@ public class AccountsApi {
         }
 
         int balance = 0;
-        for (Transaction transaction : bankAccount.getAllTransactions()) {
+        for (Transaction transaction : bankAccount.allTransactions()) {
             balance += transaction.amountInCents();
         }
         return balance;
@@ -109,7 +103,7 @@ public class AccountsApi {
         List<Transaction> transactions = new ArrayList<>();
         for (String accountId : bankAccountIds) {
             BankAccount bankAccount = bankAccountRepository.getBankAccount(accountId);
-            transactions.addAll(bankAccount.getTransactionsInDateRange(startTime, endTime));
+            transactions.addAll(bankAccount.transactionsInDateRange(startTime, endTime));
         }
         return transactions;
     }

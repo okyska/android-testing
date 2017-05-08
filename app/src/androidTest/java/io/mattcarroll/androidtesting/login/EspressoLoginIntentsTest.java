@@ -92,7 +92,7 @@ public class EspressoLoginIntentsTest {
     }
 
     private void clickSignUp() {
-        onView(withId(R.id.sign_up_button))
+        onView(withId(R.id.button_sign_up))
                 .perform(scrollTo(), click());
     }
 }

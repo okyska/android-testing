@@ -64,9 +64,9 @@ public class LoginFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Set up the login form.
-        emailView = (AutoCompleteTextView) view.findViewById(R.id.email);
+        emailView = (AutoCompleteTextView) view.findViewById(R.id.edittext_email);
 
-        passwordView = (EditText) view.findViewById(R.id.password);
+        passwordView = (EditText) view.findViewById(R.id.edittext_password);
         passwordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -78,7 +78,7 @@ public class LoginFragment extends Fragment {
             }
         });
 
-        Button mEmailSignInButton = (Button) view.findViewById(R.id.email_sign_in_button);
+        Button mEmailSignInButton = (Button) view.findViewById(R.id.button_sign_in);
         mEmailSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,7 +86,7 @@ public class LoginFragment extends Fragment {
             }
         });
 
-        view.findViewById(R.id.sign_up_button).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.button_sign_up).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onSignUpSelected();
