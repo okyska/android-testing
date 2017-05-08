@@ -36,6 +36,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static junit.framework.Assert.fail;
 import static org.hamcrest.Matchers.allOf;
 
 public class LinkAccountsAcceptanceTest {
@@ -100,6 +101,10 @@ public class LinkAccountsAcceptanceTest {
         AccountsApi.getInstance().removeAllAccounts();
     }
 
+    /**
+     * This is the end-to-end test you'll be fixing. You shouldn't need to modify this method.
+     * Instead, focus on each of the failing helper methods.
+     */
     @Test
     public void whenUserLinksAccountItAppearsInOverview() {
         injectFakeAccounts(TEST_ACCOUNT);
@@ -115,86 +120,52 @@ public class LinkAccountsAcceptanceTest {
         );
     }
 
+    private void injectFakeAccounts(@NonNull BankAccount... accounts) {
+        BankAccountsDatasource.getInstance().injectAccounts(accounts);
+    }
+
     private void verifyTransactionsAreShown(@NonNull ExpectedTransaction... transactions) {
         for (ExpectedTransaction transaction : transactions) {
             verifyTransactionIsShown(transaction);
         }
     }
 
-    private void injectFakeAccounts(@NonNull BankAccount... accounts) {
-        BankAccountsDatasource.getInstance().injectAccounts(accounts);
-    }
-
     private void login(@NonNull String email, @NonNull String password) {
-        onView(withId(R.id.edittext_email))
-                .perform(typeText(email));
-        onView(withId(R.id.edittext_password))
-                .perform(typeText(password));
-        onView(withId(R.id.button_sign_in))
-                .perform(click());
+        fail("TODO Complete login.");
     }
 
     private void openManageAccountsScreen() {
-        onView(withId(R.id.fab_manage_accounts))
-                .perform(click());
+        fail("TODO Open the Manage Accounts screen.");
     }
 
     private void linkAccount(@NonNull String bankName,
                              @NonNull String accountNumber,
                              @NonNull String validPassword) {
-        onView(withId(R.id.button_link_account))
-                .perform(click());
-
-        onView(withId(R.id.edittext_bank_name))
-                .perform(typeText(bankName));
-        onView(withId(R.id.edittext_account_number))
-                .perform(typeText(accountNumber));
-        onView(withId(R.id.edittext_password))
-                .perform(typeText(validPassword));
-
-        onView(withId(R.id.button_link_account))
-                .perform(click());
+        fail("TODO Complete account linking process.");
     }
 
     private void goBackToOverviewScreen() {
-        pressBack();
+        fail("TODO Navigate back to the Overview screen.");
     }
 
     private void verifyAccountOverviewIsShown(@NonNull String displayName,
                                               @NonNull String accountNumberLastDigits,
                                               @NonNull String balance,
                                               @NonNull String amountSpentThisMonth) {
-        onView(withId(R.id.recyclerview_accounts))
-                .perform(RecyclerViewActions.scrollTo(
-                        hasDescendant(withText(accountNumberLastDigits))))
-                .check(matches(allOf(
-                        hasDescendant(allOf(
-                                withId(R.id.textview_account_last_digits),
-                                withText(accountNumberLastDigits))),
-                        hasDescendant(allOf(
-                                withId(R.id.textview_display_name),
-                                withText(displayName))),
-                        hasDescendant(allOf(
-                                withId(R.id.textview_balance),
-                                withText(balance))),
-                        hasDescendant(allOf(
-                                withId(R.id.textview_amount_spent_this_month),
-                                withText(amountSpentThisMonth))))));
+        fail("TODO Verify that the given information is shown in an account view inside the Accounts RecyclerView.");
     }
 
     private void verifyTransactionIsShown(@NonNull ExpectedTransaction transaction) {
-        onData(hasDescriptionAndAmount(transaction.description, transaction.amount))
-                .inAdapterView(withId(R.id.listview_transactions))
-                .onChildView(withId(R.id.textview_transaction_description))
-                .check(matches(isDisplayed()));
+        fail("TODO Verify that the given transaction is shown in a list item in the transactions ListView.");
     }
 
+    // Offers the ability to match a TransactionListItemViewModel based on the 'description' and 'amount' fields.
+    // You shouldn't need to modify this method.
     private Matcher<? super Object> hasDescriptionAndAmount(@NonNull String description, @NonNull String amount) {
         return new TransactionListItemViewModelMatcher(description, amount);
     }
 
     private static class ExpectedTransaction {
-
         final String description;
         final String amount;
 
@@ -204,8 +175,11 @@ public class LinkAccountsAcceptanceTest {
         }
     }
 
+    /**
+     * Custom matcher for matching TransactionListItemViewModels by description and amount.
+     * You shouldn't need to modify this.
+     */
     private static class TransactionListItemViewModelMatcher extends BoundedMatcher<Object, TransactionListItemViewModel> {
-
         private final String description;
         private final String amount;
 
