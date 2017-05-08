@@ -4,32 +4,15 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.test.InstrumentationRegistry;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.TimeoutException;
 
-import io.mattcarroll.androidtesting.IntentServiceIdlingResource;
-
-import static android.support.test.espresso.Espresso.registerIdlingResources;
-import static android.support.test.espresso.Espresso.unregisterIdlingResources;
-import static io.mattcarroll.androidtesting.EspressoUtils.waitForIdle;
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
 
 public class AccountPersistenceServiceTest {
@@ -57,20 +40,18 @@ public class AccountPersistenceServiceTest {
     private final BankAccount TEST_ACCOUNT_2 = new BankAccount("test bank", "test account 2", "987654321", TEST_TRANSACTIONS_2);
 
     private Context appContext;
-    private IntentServiceIdlingResource idlingResource;
 
     @Before
     public void setup() {
         appContext = InstrumentationRegistry.getTargetContext();
-        idlingResource = new IntentServiceIdlingResource(appContext, INTENT_SERVICE_IDLING_RESOURCE_NAME);
-        registerIdlingResources(idlingResource);
+        fail("Create and register an IntentServiceIdlingResource so that you can wait for AccountPersistenceService.");
     }
 
     @After
     public void teardown() {
-        unregisterIdlingResources(idlingResource);
-        AccountPersistenceService.accountsFile(appContext, TEST_FILE_NAME).delete();
-        AccountsApi.getInstance().removeAllAccounts();
+        fail("Deregister the IntentServiceIdlingResource.");
+        fail("Delete AccountPersistenceService's file so you don't mess up other tests.");
+        fail("Remove all accounts from AccountsApi so you don't mess up other tests.");
     }
 
     @Test
@@ -93,66 +74,36 @@ public class AccountPersistenceServiceTest {
     }
 
     private void linkBankAccounts(@NonNull BankAccount ... bankAccounts) {
-        AccountsApi.getInstance().addAccounts(bankAccounts);
+        fail("TODO: to emulate linked bank accounts, add the given bankAccounts to the AccountsApi manually.");
     }
 
     private void saveAccountsToFile() {
-        AccountPersistenceService.saveAccounts(appContext, TEST_FILE_NAME);
-        waitForIdle();
+        fail("TODO: run the AccountPersistenceService to save the existing accounts to file.");
+        fail("TODO: make sure to wait for the AccountPersistenceService to finish");
     }
 
     private void verifyAccountsFileExists() {
-        File accountsFile = AccountPersistenceService.accountsFile(appContext, TEST_FILE_NAME);
-        assertTrue(accountsFile.exists());
+        fail("TODO: check that the file exists that AccountPersistenceService writes to.  Use TEST_FILE_NAME as the file name.");
     }
 
     private void verifyAccountsFileContainsAccounts(@NonNull BankAccount ... expectedAccounts) throws IOException {
-        File accountsFile = AccountPersistenceService.accountsFile(appContext, TEST_FILE_NAME);
-        Gson gson = new Gson();
-        JsonReader reader = new JsonReader(new FileReader(accountsFile));
-        Set<BankAccount> actualAccounts = gson.fromJson(reader, new TypeToken<Set<BankAccount>>() { }.getType());
-
-        assertEquals(expectedAccounts.length, actualAccounts.size());
-        for (BankAccount expectedAccount : expectedAccounts) {
-            boolean found = false;
-            for (BankAccount actualAccount : actualAccounts) {
-                if (expectedAccount.equals(actualAccount)
-                        && expectedAccount.sameTransactionHistory(actualAccount)) {
-                    found = true;
-                    break;
-                }
-            }
-
-            if (!found) {
-                fail("Expected BankAccount was not found in file: " + expectedAccount);
-            }
-        }
+        fail("Read the contents of AccountPersistenceService's file and deserialize to a Set<BankAccount>.");
+        fail("Verify that every expected account is included in the actual accounts.");
+        fail("Verify that every actual account is included in the expected accounts.");
     }
 
     private void writeFakeBankAccountsToFile() throws IOException {
-        // Collect fake bank accounts and convert to JSON.
-        List<BankAccount> fakeAccounts = Collections.singletonList(TEST_ACCOUNT_1);
-        String fakeAccountsJson = new Gson().toJson(fakeAccounts);
-
-        // Write fake bank accounts to file.
-        File testFile = AccountPersistenceService.accountsFile(appContext, TEST_FILE_NAME);
-        BufferedWriter bw = new BufferedWriter(new FileWriter(testFile));
-        bw.write(fakeAccountsJson);
-        bw.close();
+        fail("Turn one or more test accounts into a List<BankAccount>, then turn that into JSON.");
+        fail("Write the fake bank account JSON to AccountPersistenceService's file.");
     }
 
     private void loadAccountsFromFile() {
-        AccountPersistenceService.loadAccounts(appContext, TEST_FILE_NAME);
-        waitForIdle();
+        fail("Run AccountPersistenceService to load accounts from its file.");
+        fail("Be sure to wait for AccountPersistenceService to finish.");
     }
 
     private void verifyFakeAccountsLoaded() {
-        BankAccount expectedAccount = TEST_ACCOUNT_1;
-
-        Set<BankAccount> actualBankAccounts = AccountsApi.getInstance().accounts();
-        assertEquals(1, actualBankAccounts.size());
-        assertEquals(expectedAccount, actualBankAccounts.iterator().next());
-        assertTrue(expectedAccount.sameTransactionHistory(actualBankAccounts.iterator().next()));
+        fail("Query the accounts in AccountsApi and ensure they are the same fake accounts that you turned into JSON.");
     }
 
 }
