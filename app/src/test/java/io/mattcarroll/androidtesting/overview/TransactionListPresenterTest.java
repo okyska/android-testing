@@ -2,12 +2,10 @@ package io.mattcarroll.androidtesting.overview;
 
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -21,9 +19,7 @@ import io.mattcarroll.androidtesting.R;
 import io.mattcarroll.androidtesting.accounts.Transaction;
 
 import static junit.framework.Assert.assertEquals;
-import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
 public class TransactionListPresenterTest {
     private static final int MAY = 4; // month number is 0-based
     private static final Calendar MAY_9_2017 = new GregorianCalendar(2017, MAY, 9);
@@ -50,24 +46,12 @@ public class TransactionListPresenterTest {
 
     private TransactionListPresenter presenter;
 
-    @Mock
-    private Resources mockResources;
-    @Mock
-    private Time mockCalendar;
-
     @Before
     public void setup() {
         presenter = new TransactionListPresenter(
-                mockResources,
-                mockCalendar,
+                new FakeResources(),
+                new FakeTime(),
                 NumberFormat.getCurrencyInstance(Locale.US));
-
-        when(mockCalendar.isToday(TODAY)).thenReturn(true);
-        when(mockCalendar.isYesterday(YESTERDAY)).thenReturn(true);
-        when(mockCalendar.isThisWeek(FOUR_DAYS_AGO)).thenReturn(true);
-
-        when(mockResources.getString(R.string.label_today)).thenReturn(TODAY_STRING);
-        when(mockResources.getString(R.string.label_yesterday)).thenReturn(YESTERDAY_STRING);
     }
 
     @Test
@@ -173,5 +157,40 @@ public class TransactionListPresenterTest {
             transactions.add(new Transaction("", amountInCents, TODAY));
         }
         return transactions;
+    }
+
+    private static class FakeResources extends Resources {
+        public FakeResources() {
+            super(null, null, null);
+        }
+
+        @NonNull
+        @Override
+        public String getString(@StringRes int id) throws NotFoundException {
+            if (id == R.string.label_today) {
+                return TODAY_STRING;
+            } else if (id == R.string.label_yesterday) {
+                return YESTERDAY_STRING;
+            } else {
+                return "";
+            }
+        }
+    }
+
+    private static class FakeTime extends Time {
+        @Override
+        public boolean isToday(long date) {
+            return date == TODAY;
+        }
+
+        @Override
+        public boolean isYesterday(long date) {
+            return date == YESTERDAY;
+        }
+
+        @Override
+        public boolean isThisWeek(long date) {
+            return date == FOUR_DAYS_AGO;
+        }
     }
 }
