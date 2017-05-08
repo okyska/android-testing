@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/account_list_item_padding_vertical"
+    android:paddingBottom="@dimen/account_list_item_padding_vertical"
+    android:paddingLeft="@dimen/account_list_item_padding_horizontal"
+    android:paddingRight="@dimen/account_list_item_padding_horizontal"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        >
+
+        <TextView
+            android:id="@+id/textview_account_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:ellipsize="end"
+            tools:text="Chase Sapphire Reserve"
+            />
+
+        <TextView
+            android:id="@+id/textview_account_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textview_account_name"
+            android:textSize="12sp"
+            android:textColor="@color/colorFineText"
+            tools:text="************4236"
+            />
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/button_remove_account"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/account_list_item_remove_button_height"
+        android:layout_alignParentRight="true"
+        android:text="@string/button_remove_account"
+        />
+
+</RelativeLayout>

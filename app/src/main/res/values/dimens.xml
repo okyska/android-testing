@@ -5,4 +5,12 @@
     <dimen name="nav_header_vertical_spacing">16dp</dimen>
     <dimen name="nav_header_height">160dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="transaction_icon_size">56dp</dimen>
+    <dimen name="transaction_list_item_padding_horizontal">16dp</dimen>
+    <dimen name="cell_padding_vertical">16dp</dimen>
+    <dimen name="cell_padding_horizontal">32dp</dimen>
+    <dimen name="account_view_margin">10dp</dimen>
+    <dimen name="account_list_item_padding_vertical">8dp</dimen>
+    <dimen name="account_list_item_padding_horizontal">16dp</dimen>
+    <dimen name="account_list_item_remove_button_height">36dp</dimen>
 </resources>

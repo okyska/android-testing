@@ -2,9 +2,12 @@ package io.mattcarroll.androidtesting.home;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,13 +19,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import io.mattcarroll.androidtesting.R;
-import io.mattcarroll.androidtesting.usersession.UserSession;
+import io.mattcarroll.androidtesting.accounts.ManageAccountsActivity;
+import io.mattcarroll.androidtesting.creditcardanalysis.CreditCardAnalysisFragment;
+import io.mattcarroll.androidtesting.overview.AccountsOverviewFragment;
+import io.mattcarroll.androidtesting.spending.MonthlySpendingFragment;
 import io.mattcarroll.androidtesting.login.LoginActivity;
+import io.mattcarroll.androidtesting.usersession.UserSession;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = "HomeActivity";
+    private static final int REQUEST_CODE_LOGIN = 1000;
+
+    private final SparseArray<Fragment> navItemToFragmentMap = new SparseArray<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,12 +41,13 @@ public class HomeActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        initNavItemMap();
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_manage_accounts);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                launchManageAccountScreen();
             }
         });
 
@@ -46,8 +57,40 @@ public class HomeActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+        @IdRes int defaultNavItem = getDefaultNavItem();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setCheckedItem(defaultNavItem);
         navigationView.setNavigationItemSelectedListener(this);
+
+        if (null == savedInstanceState) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.framelayout_container, navItemToFragmentMap.get(defaultNavItem))
+                    .commit();
+        }
+    }
+
+    private void launchManageAccountScreen() {
+        Intent manageAccountIntent = new Intent(this, ManageAccountsActivity.class);
+        startActivity(manageAccountIntent);
+    }
+
+    private void initNavItemMap() {
+        navItemToFragmentMap.put(R.id.nav_overview, AccountsOverviewFragment.newInstance());
+        navItemToFragmentMap.put(R.id.nav_credit_card_analysis, CreditCardAnalysisFragment.newInstance());
+        navItemToFragmentMap.put(R.id.nav_monthly_spending, MonthlySpendingFragment.newInstance());
+    }
+
+    @IdRes
+    private int getDefaultNavItem() {
+        return R.id.nav_overview;
+    }
+
+    private void switchToFragment(@NonNull Fragment fragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.framelayout_container, fragment)
+                .commit();
     }
 
     @Override
@@ -60,9 +103,24 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_CODE_LOGIN:
+                if (RESULT_CANCELED == resultCode) {
+                    // User chose not to login.
+                    finish();
+                }
+                break;
+            default:
+                super.onActivityResult(requestCode, resultCode, data);
+                break;
+        }
+    }
+
     private void launchLoginScreen() {
         Intent loginIntent = new Intent(this, LoginActivity.class);
-        startActivity(loginIntent);
+        startActivityForResult(loginIntent, REQUEST_CODE_LOGIN);
     }
 
     @Override
@@ -97,24 +155,12 @@ public class HomeActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        Fragment selectedFragment = navItemToFragmentMap.get(id);
+        if (selectedFragment != null) {
+            switchToFragment(selectedFragment);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
