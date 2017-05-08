@@ -33,7 +33,7 @@ class TransactionListItemView extends FrameLayout {
     private void init() {
         LayoutInflater.from(getContext()).inflate(R.layout.view_transaction_list_item, this, true);
         mIconImageView = (ImageView) findViewById(R.id.imageview_icon);
-        mTitleTextView = (TextView) findViewById(R.id.textview_transaction_date);
+        mTitleTextView = (TextView) findViewById(R.id.textview_transaction_title);
         mSubtitleTextView = (TextView) findViewById(R.id.textview_subtitle);
         mDetailTextView = (TextView) findViewById(R.id.textview_detail);
     }

@@ -67,13 +67,7 @@ public class AccountsApi {
             e.printStackTrace();
         }
 
-        String institutionName = accountCredentials.getFinancialInstitutionName();
-
-        return new BankAccount(
-                institutionName,
-                new RandomAccountName().generate(),
-                accountCredentials.getAccountNumber(),
-                new RandomTransactions().generate());
+        return BankAccountsDatasource.getInstance().linkAccount(accountCredentials);
     }
 
     public void removeAccount(@NonNull String bankAccountId) {

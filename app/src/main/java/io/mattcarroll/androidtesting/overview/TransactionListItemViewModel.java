@@ -3,11 +3,15 @@ package io.mattcarroll.androidtesting.overview;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
+
+import static android.support.annotation.VisibleForTesting.PACKAGE_PRIVATE;
 
 /**
  * ViewModel that presents a Transaction in a list.
  */
-class TransactionListItemViewModel {
+@VisibleForTesting(otherwise = PACKAGE_PRIVATE)
+public class TransactionListItemViewModel {
 
     @DrawableRes
     private final Integer icon;
@@ -49,5 +53,15 @@ class TransactionListItemViewModel {
     @Nullable
     public String detail() {
         return detail;
+    }
+
+    @Override
+    public String toString() {
+        return "TransactionListItemViewModel{" +
+                "icon=" + icon +
+                ", title='" + title + '\'' +
+                ", subtitle='" + subtitle + '\'' +
+                ", detail='" + detail + '\'' +
+                '}';
     }
 }
