@@ -3,7 +3,7 @@ package io.mattcarroll.androidtesting.accounts;
 import android.support.annotation.NonNull;
 
 /**
- * TODO
+ * Data structure representing a financial transaction.
  */
 public class Transaction {
 

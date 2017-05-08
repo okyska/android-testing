@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * TODO
+ * Data structure representing a bank account.
  */
 public class BankAccount {
 
