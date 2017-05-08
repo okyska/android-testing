@@ -1,4 +1,4 @@
-package io.mattcarroll.androidtesting;
+package io.mattcarroll.androidtesting.signup;
 
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
@@ -11,7 +11,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import io.mattcarroll.androidtesting.signup.SignUpActivity;
+import io.mattcarroll.androidtesting.R;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;

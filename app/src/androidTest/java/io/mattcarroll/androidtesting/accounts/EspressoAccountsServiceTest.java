@@ -1,4 +1,4 @@
-package io.mattcarroll.androidtesting;
+package io.mattcarroll.androidtesting.accounts;
 
 import android.content.Intent;
 import android.support.test.InstrumentationRegistry;

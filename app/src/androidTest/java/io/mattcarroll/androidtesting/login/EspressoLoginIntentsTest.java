@@ -1,4 +1,4 @@
-package io.mattcarroll.androidtesting;
+package io.mattcarroll.androidtesting.login;
 
 
 import android.app.Activity;
@@ -10,7 +10,7 @@ import android.support.test.espresso.intent.rule.IntentsTestRule;
 import org.junit.Rule;
 import org.junit.Test;
 
-import io.mattcarroll.androidtesting.login.LoginActivity;
+import io.mattcarroll.androidtesting.R;
 import io.mattcarroll.androidtesting.signup.SignUpActivity;
 
 import static android.support.test.espresso.Espresso.onView;
