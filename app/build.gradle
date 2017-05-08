@@ -3,7 +3,8 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.1"
-    testBuildType 'espresso'
+    // Commented out for presentation purposes.  We want to see an animation loader keep a test alive first.
+//    testBuildType 'espresso'
     defaultConfig {
         applicationId "io.mattcarroll.androidtesting"
         minSdkVersion 17

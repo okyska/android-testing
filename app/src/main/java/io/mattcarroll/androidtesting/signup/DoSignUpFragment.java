@@ -117,19 +117,11 @@ public class DoSignUpFragment extends Fragment {
 
     private static class SignUpLoader extends Loader<Void> {
 
-        private final CountingIdlingResource countingIdlingResource;
         private final SignUpForm signUpForm;
 
         SignUpLoader(Context context, @NonNull SignUpForm signUpForm) {
             super(context);
             this.signUpForm = signUpForm;
-
-            if (BuildConfig.DEBUG) {
-                countingIdlingResource = new CountingIdlingResource("signup");
-                Espresso.registerIdlingResources(countingIdlingResource);
-            } else {
-                countingIdlingResource = null;
-            }
 
             forceLoad();
         }
@@ -141,10 +133,6 @@ public class DoSignUpFragment extends Fragment {
         }
 
         private void executeTask() {
-            if (null != countingIdlingResource) {
-                countingIdlingResource.increment();
-            }
-
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -153,12 +141,6 @@ public class DoSignUpFragment extends Fragment {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-
-                    if (null != countingIdlingResource) {
-                        countingIdlingResource.decrement();
-                    }
-
-                    Espresso.unregisterIdlingResources(countingIdlingResource);
                     deliverResult(null);
                 }
             }).start();
