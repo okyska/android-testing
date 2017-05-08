@@ -135,7 +135,7 @@ public class TransactionListPresenterTest {
         List<Object> viewModels = presenter.present(transactions);
 
         TransactionListItemViewModel viewModel = (TransactionListItemViewModel) viewModels.get(1);
-        assertEquals(DESCRIPTION, viewModel.title());
+        assertEquals(DESCRIPTION, viewModel.description());
     }
 
     @Test
@@ -145,7 +145,7 @@ public class TransactionListPresenterTest {
         List<Object> viewModels = presenter.present(transactions);
 
         TransactionListItemViewModel viewModel = (TransactionListItemViewModel) viewModels.get(1);
-        assertEquals(ONE_DOLLAR_AS_STRING, viewModel.detail());
+        assertEquals(ONE_DOLLAR_AS_STRING, viewModel.amount());
     }
 
     @NonNull

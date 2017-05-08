@@ -15,24 +15,15 @@ public class TransactionListItemViewModel {
 
     @DrawableRes
     private final Integer icon;
-    private final String title;
-    private final String subtitle;
-    private final String detail;
+    private final String description;
+    private final String amount;
 
     public TransactionListItemViewModel(@Nullable @DrawableRes Integer icon,
-                                        @NonNull String title,
-                                        @Nullable String detail) {
-        this(icon, title, null, detail);
-    }
-
-    public TransactionListItemViewModel(@Nullable @DrawableRes Integer icon,
-                                        @NonNull String title,
-                                        @Nullable String subtitle,
-                                        @Nullable String detail) {
+                                        @NonNull String description,
+                                        @Nullable String amount) {
         this.icon = icon;
-        this.title = title;
-        this.subtitle = subtitle;
-        this.detail = detail;
+        this.description = description;
+        this.amount = amount;
     }
 
     @Nullable
@@ -41,27 +32,21 @@ public class TransactionListItemViewModel {
     }
 
     @NonNull
-    public String title() {
-        return title;
+    public String description() {
+        return description;
     }
 
     @Nullable
-    public String subtitle() {
-        return subtitle;
-    }
-
-    @Nullable
-    public String detail() {
-        return detail;
+    public String amount() {
+        return amount;
     }
 
     @Override
     public String toString() {
         return "TransactionListItemViewModel{" +
                 "icon=" + icon +
-                ", title='" + title + '\'' +
-                ", subtitle='" + subtitle + '\'' +
-                ", detail='" + detail + '\'' +
+                ", description='" + description + '\'' +
+                ", amount='" + amount + '\'' +
                 '}';
     }
 }
