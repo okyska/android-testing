@@ -3,7 +3,6 @@ package io.mattcarroll.androidtesting.accounts;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.espresso.matcher.BoundedMatcher;
 import android.support.test.rule.ActivityTestRule;
 
@@ -19,25 +18,13 @@ import java.util.Date;
 import java.util.List;
 
 import io.mattcarroll.androidtesting.IntentServiceIdlingResource;
-import io.mattcarroll.androidtesting.R;
 import io.mattcarroll.androidtesting.SplashActivity;
 import io.mattcarroll.androidtesting.overview.TransactionListItemViewModel;
 import io.mattcarroll.androidtesting.usersession.UserSession;
 
-import static android.support.test.espresso.Espresso.onData;
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.Espresso.registerIdlingResources;
 import static android.support.test.espresso.Espresso.unregisterIdlingResources;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.typeText;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.Assert.fail;
-import static org.hamcrest.Matchers.allOf;
 
 public class LinkAccountsAcceptanceTest {
     private static final String INTENT_SERVICE_IDLING_RESOURCE_NAME =
@@ -126,22 +113,65 @@ public class LinkAccountsAcceptanceTest {
 
     private void verifyTransactionsAreShown(@NonNull ExpectedTransaction... transactions) {
         for (ExpectedTransaction transaction : transactions) {
-            verifyTransactionIsShown(transaction);
+            verifyTransactionIsShown(transaction.description, transaction.amount);
         }
     }
 
+    /***********************************************************************************************
+     * DO NOT MODIFY ABOVE THIS LINE ***************************************************************
+     ***********************************************************************************************/
+
+    /**
+     * Login Screen
+     *    • LoginFragment.java
+     *    • fragment_login.xml
+     *
+     *  Email                       R.id.edittext_email
+     *  Password                    R.id.edittext_password
+     *  Sign In button              R.id.button_sign_in
+     *
+     *
+     * Accounts Overview
+     *    • AccountsOverviewFragment.java
+     *    • fragment_accounts_overview.xml
+     *
+     *  Floating Action Button      R.id.fab_manage_accounts
+     *   (launches Manage Accounts)
+     *  Accounts pager              R.id.recyclerview_accounts
+     *  Transactions list view      R.id.listview_transactions
+     *  Transactions adapter        TransactionListAdapter.java
+     *
+     *
+     * Manage Accounts Screen
+     *    • ManageAccountsActivity.java
+     *    • activity_manage_accounts.xml
+     *
+     *  Link Account button         R.id.button_link_account
+     *
+     *
+     * Link Account Screen
+     *    • LinkAccountActivity.java
+     *    • activity_link_account.xml
+     *
+     *  Bank Name                   R.id.edittext_bank_name
+     *  Account Number              R.id.edittext_account_number
+     *  Password                    R.id.edittext_password
+     *  Link Account button         R.id.button_link_account
+     *
+     */
+
     private void login(@NonNull String email, @NonNull String password) {
-        fail("TODO Complete login.");
+        fail("TODO Complete login using the given credentials.");
     }
 
     private void openManageAccountsScreen() {
-        fail("TODO Open the Manage Accounts screen.");
+        fail("TODO Open Manage Accounts screen.");
     }
 
     private void linkAccount(@NonNull String bankName,
                              @NonNull String accountNumber,
                              @NonNull String validPassword) {
-        fail("TODO Complete account linking process.");
+        fail("TODO Link account by submitting the given information.");
     }
 
     private void goBackToOverviewScreen() {
@@ -152,12 +182,17 @@ public class LinkAccountsAcceptanceTest {
                                               @NonNull String accountNumberLastDigits,
                                               @NonNull String balance,
                                               @NonNull String amountSpentThisMonth) {
-        fail("TODO Verify that the given information is shown in an account view inside the Accounts RecyclerView.");
+        fail("TODO Verify that the given information is shown in an item in the Accounts pager.");
+        // Hint: http://lmgtfy.com/?q=RecyclerViewActions
     }
 
-    private void verifyTransactionIsShown(@NonNull ExpectedTransaction transaction) {
-        fail("TODO Verify that the given transaction is shown in a list item in the transactions ListView.");
+    private void verifyTransactionIsShown(@NonNull String description, @NonNull String amount) {
+        fail("TODO Verify the given transaction info is shown in an item in the list view.");
     }
+
+    /***********************************************************************************************
+     * DO NOT MODIFY BELOW THIS LINE ***************************************************************
+     ***********************************************************************************************/
 
     // Offers the ability to match a TransactionListItemViewModel based on the 'description' and 'amount' fields.
     // You shouldn't need to modify this method.

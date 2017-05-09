@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.test.espresso.Espresso;
+import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.idling.CountingIdlingResource;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -118,6 +119,7 @@ public class DoSignUpFragment extends Fragment {
     private static class SignUpLoader extends Loader<Void> {
 
         private final SignUpForm signUpForm;
+        boolean isRunning = false;
 
         SignUpLoader(Context context, @NonNull SignUpForm signUpForm) {
             super(context);
@@ -133,6 +135,7 @@ public class DoSignUpFragment extends Fragment {
         }
 
         private void executeTask() {
+            isRunning = true;
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -142,6 +145,7 @@ public class DoSignUpFragment extends Fragment {
                         e.printStackTrace();
                     }
                     deliverResult(null);
+                    isRunning = false;
                 }
             }).start();
         }
