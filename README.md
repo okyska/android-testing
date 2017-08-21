@@ -20,6 +20,12 @@ See:
   - getTargetContext() - returns the AUT context - use it operate on the app and its resources
   - getContext() - return the context of instrumentation package - use it access resources in test APK
 
+## 4. Refactor duplicate code and introduce back button
+* Move commonly used code to methods to avoid copy-paste and ease maintanance
+* Caveats with Espress.pressBack():
+  * Close soft keyboard before clicking it to make sure back button click is applied to an activity or fragment
+  * Back button click on main activity will throw an exception (and AUT may be terminated at this time)
+
 # Android Testing
 
 This project is a fake Android app that is intended to be used in workshop training to learn Android testing practices.
