@@ -29,6 +29,9 @@ See:
 ## 5. Introduce pressKey with complex keys
 * Show that pressKey can be used both with simple keycode (KEYCODE_*) and complex keys via EspressKey.Builder class
 
+## *. Access objects from the app
+* Accessing objects from the app can be useful to reset AUT state
+
 # Android Testing
 
 This project is a fake Android app that is intended to be used in workshop training to learn Android testing practices.

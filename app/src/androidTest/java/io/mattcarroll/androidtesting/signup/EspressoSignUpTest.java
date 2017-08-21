@@ -8,12 +8,14 @@ import android.support.test.espresso.action.EspressoKey;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import io.mattcarroll.androidtesting.R;
+import io.mattcarroll.androidtesting.usersession.UserSession;
 
 import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
@@ -43,6 +45,11 @@ public class EspressoSignUpTest {
         // getTargetContext() operates on the application under test
         // getContext() operates on the test APK context
         resources = InstrumentationRegistry.getTargetContext().getResources();
+    }
+
+    @After
+    public void teardown() {
+        UserSession.getInstance().logout();
     }
 
     private static void scrollToAndTapNext() {
