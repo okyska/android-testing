@@ -1,5 +1,5 @@
 # Espresso steps
-## 1. Add Espresso
+## 1. Configure Espresso dependencies
 * Add repository and dependencies as described on
  https://developer.android.com/training/testing/espresso/setup.html
  https://developer.android.com/topic/libraries/testing-support-library/packages.html
@@ -9,6 +9,16 @@ See:
  https://docs.gradle.org/current/dsl/org.gradle.api.artifacts.ResolutionStrategy.html
 
 * Define and use separate `espresso` build type based on debug (`testBuildType`, `buildTypes`)
+* Switch to `espresso` build variant
+
+## 2. Basic Espresso test
+* Implement basic test with @RunWith, @Test, ActivityTestRule, basic actions and checks
+
+## 3. Use string from resources
+* Instrumented tests have access to AUT resources and objects
+* InstrumentationRegistry has two similarly named methods:
+  - getTargetContext() - returns the AUT context - use it operate on the app and its resources
+  - getContext() - return the context of instrumentation package - use it access resources in test APK
 
 # Android Testing
 
