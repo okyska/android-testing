@@ -4,6 +4,7 @@ package io.mattcarroll.androidtesting.signup;
 import android.content.res.Resources;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.NoActivityResumedException;
+import android.support.test.espresso.action.EspressoKey;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -18,6 +19,7 @@ import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.pressKey;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -25,6 +27,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static android.view.KeyEvent.KEYCODE_MINUS;
 import static junit.framework.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
@@ -54,9 +57,15 @@ public class EspressoSignUpTest {
     }
 
     private static void scrollToAndFill(int fieldId, String textToType) {
-        onView(withId(fieldId)).perform(
-                scrollTo(),
-                typeText(textToType));
+        EspressoKey underscore = new EspressoKey.Builder()
+                .withShiftPressed(true)
+                .withKeyCode(KEYCODE_MINUS)
+                .build();
+        onView(withId(fieldId))
+            .perform(scrollTo())
+            .perform(click(), pressKey(underscore))   // more useful for strange text views
+                // pressKey also accept simple keycodes
+            .perform(typeText(textToType));
     }
 
     @Test

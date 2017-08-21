@@ -26,6 +26,9 @@ See:
   * Close soft keyboard before clicking it to make sure back button click is applied to an activity or fragment
   * Back button click on main activity will throw an exception (and AUT may be terminated at this time)
 
+## 5. Introduce pressKey with complex keys
+* Show that pressKey can be used both with simple keycode (KEYCODE_*) and complex keys via EspressKey.Builder class
+
 # Android Testing
 
 This project is a fake Android app that is intended to be used in workshop training to learn Android testing practices.
