@@ -34,6 +34,11 @@ See:
 
 ## *. Testcases for practice
 
+===== Day 2
+## 1. onData to select interests at the end of the list
+* onData allows to select interests at the end of the list without failure
+(ex. Football and Astronomy will failure with old implementation)
+
 # Android Testing
 
 This project is a fake Android app that is intended to be used in workshop training to learn Android testing practices.

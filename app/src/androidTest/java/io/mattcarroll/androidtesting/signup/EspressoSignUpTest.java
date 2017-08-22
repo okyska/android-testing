@@ -18,6 +18,7 @@ import io.mattcarroll.androidtesting.R;
 import io.mattcarroll.androidtesting.usersession.UserSession;
 
 import static android.support.test.espresso.Espresso.closeSoftKeyboard;
+import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -31,6 +32,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static android.view.KeyEvent.KEYCODE_MINUS;
 import static junit.framework.Assert.assertTrue;
+import static org.hamcrest.core.Is.is;
 
 @RunWith(AndroidJUnit4.class)
 public class EspressoSignUpTest {
@@ -87,14 +89,14 @@ public class EspressoSignUpTest {
         scrollToAndTapNext();
 
         // Select interests.
-        selectInterest("Chess");
+        selectInterest("Astronomy");
         tapNext();
 
         // We're on the final page.  Now go back to each previous page.
         pressBackOnActivity();
 
         // Verify we're on the interests page
-        onView(withText("Chess")).check(matches(isDisplayed()));
+        onData(is("Astronomy")).check(matches(isDisplayed()));
 
         // Go back again.
         pressBackOnActivity();
@@ -121,7 +123,7 @@ public class EspressoSignUpTest {
 
     private static void selectInterest(String ... interests) {
         for (String interest : interests) {
-            onView(withText(interest))
+            onData(is(interest))
                     .perform(click());
         }
     }
@@ -156,7 +158,7 @@ public class EspressoSignUpTest {
         scrollToAndTapNext();
 
         // Select interests.
-        selectInterest("Chess");
+        selectInterest("Astronomy");
         tapNext();
 
         // Choose credentials and sign up.
@@ -184,7 +186,7 @@ public class EspressoSignUpTest {
         scrollToAndTapNext();
 
         // Select interests.
-        selectInterest("Chess");
+        selectInterest("Astronomy");
         tapNext();
 
         // Verify that credentials are required for sign up.
