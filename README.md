@@ -1,3 +1,15 @@
+# Espresso steps
+## 1. Add Espresso
+* Add repository and dependencies as described on
+ https://developer.android.com/training/testing/espresso/setup.html
+ https://developer.android.com/topic/libraries/testing-support-library/packages.html
+* Force versions used in the app with `resolutionStrategy`
+See:
+ https://sites.google.com/a/android.com/tools/tech-docs/new-build-system/user-guide#TOC-Resolving-conflicts-between-main-and-test-APK
+ https://docs.gradle.org/current/dsl/org.gradle.api.artifacts.ResolutionStrategy.html
+
+* Define and use separate `espresso` build type based on debug (`testBuildType`, `buildTypes`)
+
 # Android Testing
 
 This project is a fake Android app that is intended to be used in workshop training to learn Android testing practices.
