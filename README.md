@@ -32,6 +32,8 @@ See:
 ## *. Access objects from the app
 * Accessing objects from the app can be useful to reset AUT state
 
+## *. Testcases for practice
+
 # Android Testing
 
 This project is a fake Android app that is intended to be used in workshop training to learn Android testing practices.

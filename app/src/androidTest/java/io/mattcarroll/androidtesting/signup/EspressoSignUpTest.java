@@ -64,38 +64,37 @@ public class EspressoSignUpTest {
     }
 
     private static void scrollToAndFill(int fieldId, String textToType) {
-        EspressoKey underscore = new EspressoKey.Builder()
+/*        EspressoKey underscore = new EspressoKey.Builder()
                 .withShiftPressed(true)
                 .withKeyCode(KEYCODE_MINUS)
-                .build();
+                .build();*/
         onView(withId(fieldId))
-            .perform(scrollTo())
-            .perform(click(), pressKey(underscore))   // more useful for strange text views
+                .perform(scrollTo())
+//                .perform(click(), pressKey(underscore))   // more useful for strange text views
                 // pressKey also accept simple keycodes
-            .perform(typeText(textToType));
+                .perform(typeText(textToType));
+    }
+
+    private void checkFieldHasError(int fieldId, int errorId) {
+        onView(withId(fieldId))
+                .check(matches(hasErrorText(resources.getString(errorId))));
     }
 
     @Test
     public void userSignUpVerifyBackWorksOnEachPage() {
-        // Fill in personal info.
-        scrollToAndFill(R.id.edittext_first_name, "Matt");
-        scrollToAndFill(R.id.edittext_last_name, "Carroll");
-        scrollToAndFill(R.id.edittext_address_line_1, "123 Fake Street");
-        scrollToAndFill(R.id.edittext_address_city, "Palo Alto");
-        scrollToAndFill(R.id.edittext_address_state, "CA");
-        scrollToAndFill(R.id.edittext_address_zip, "94024");
+        // Fill in personal information.
+        fillInValidPersonalInfo();
         scrollToAndTapNext();
 
         // Select interests.
-        onView(withText("Chess"))
-                .perform(click());
+        selectInterest("Chess");
         tapNext();
 
         // We're on the final page.  Now go back to each previous page.
         pressBackOnActivity();
 
         // Verify we're on the interests page
-        onView(withText("Football")).check(matches(isDisplayed()));
+        onView(withText("Chess")).check(matches(isDisplayed()));
 
         // Go back again.
         pressBackOnActivity();
@@ -120,6 +119,22 @@ public class EspressoSignUpTest {
         pressBack();
     }
 
+    private static void selectInterest(String ... interests) {
+        for (String interest : interests) {
+            onView(withText(interest))
+                    .perform(click());
+        }
+    }
+
+    private static void enterCredentials(String email, String password) {
+        onView(withId(R.id.autocompletetextview_email)).perform(
+                scrollTo(),
+                typeText(email));
+        onView(withId(R.id.edittext_password)).perform(
+                scrollTo(),
+                typeText(password));
+    }
+
     @Test
     public void userSignUpPersonalInfoVerifyRequiredFieldsAreRequired() {
         // Verify required fields show errors and non-required fields do not.
@@ -134,8 +149,58 @@ public class EspressoSignUpTest {
         checkFieldHasError(R.id.edittext_address_zip, R.string.input_error_required);
     }
 
-    private void checkFieldHasError(int fieldId, int errorId) {
-        onView(withId(fieldId))
-                .check(matches(hasErrorText(resources.getString(errorId))));
+    @Test
+    public void userSignUpHappyPath() {
+        // Fill in personal info.
+        fillInValidPersonalInfo();
+        scrollToAndTapNext();
+
+        // Select interests.
+        selectInterest("Chess");
+        tapNext();
+
+        // Choose credentials and sign up.
+        enterCredentials("myuser", "123456");
+        scrollToAndTapNext();
+    }
+
+    @Test
+    public void userSignUpInterestsVerifySelectionRequiredToContinue() {
+        // Fill in personal information.
+        fillInValidPersonalInfo();
+        scrollToAndTapNext();
+
+        // Try to continue without selecting an interest.
+        tapNext();
+
+        // Verify that a dialog is displayed with an error message.
+        onView(withText(R.string.dialog_select_interests_body)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void userSignUpCredentialsVerifyUsernameAndPasswordAreRequired() {
+        // Fill in personal information.
+        fillInValidPersonalInfo();
+        scrollToAndTapNext();
+
+        // Select interests.
+        selectInterest("Chess");
+        tapNext();
+
+        // Verify that credentials are required for sign up.
+        scrollToAndTapNext();
+        onView(withId(R.id.autocompletetextview_email))
+                .check(matches(hasErrorText(resources.getString(R.string.input_error_required))));
+        onView(withId(R.id.edittext_password))
+                .check(matches(hasErrorText(resources.getString(R.string.input_error_required))));
+    }
+
+    private void fillInValidPersonalInfo() {
+        scrollToAndFill(R.id.edittext_first_name, "Matt");
+        scrollToAndFill(R.id.edittext_last_name, "Carroll");
+        scrollToAndFill(R.id.edittext_address_line_1, "123 Fake Street");
+        scrollToAndFill(R.id.edittext_address_city, "Palo Alto");
+        scrollToAndFill(R.id.edittext_address_state, "CA");
+        scrollToAndFill(R.id.edittext_address_zip, "94024");
     }
 }
