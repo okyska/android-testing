@@ -39,6 +39,18 @@ See:
 * onData allows to select interests at the end of the list without failure
 (ex. Football and Astronomy will failure with old implementation)
 
+## 2. [Big] Espresso test with RecycleView, accessing app data, and complex matchers
+* test data as final fields (some fields will be used in tests later)
+* use build variants to use different files in normal run and under test
+* launch the app from the beginning (SplashActivity)
+ - Espresso won't do anything while animations are playing. But you will get an expection if
+ animations are too long.
+* private methods for more readable tests
+* In previous commit we used onData to operate on lists. But unfortunately onData only works with
+AdapterViews only and RecycleView is not an AdapterView.
+Instead we should use RecyclerViewActions from espresso-contrib that has useful methods for working
+ with RecycleViews. We use scrollTo(Matcher<View> itemViewMatcher) here.
+
 # Android Testing
 
 This project is a fake Android app that is intended to be used in workshop training to learn Android testing practices.
