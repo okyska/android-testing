@@ -51,6 +51,13 @@ AdapterViews only and RecycleView is not an AdapterView.
 Instead we should use RecyclerViewActions from espresso-contrib that has useful methods for working
  with RecycleViews. We use scrollTo(Matcher<View> itemViewMatcher) here.
 
+## 3. Advanced interaction with AdapterView & custom Matcher
+onData can be used with complex classes:
+* implement custom matcher by inheriting it from BoundedMatcher. BounderMatcher already implements
+checking for type of an object, so we can use matchesSafely(TypeWeInterestedIn) instead of matches(Object)
+* use inAdapterView to make Espresso check one specific AdapterView
+* use onChildView to work with specific child of the matched item view
+
 # Android Testing
 
 This project is a fake Android app that is intended to be used in workshop training to learn Android testing practices.
