@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/cell_padding_vertical"
+    android:paddingBottom="@dimen/cell_padding_vertical"
+    android:paddingLeft="@dimen/cell_padding_horizontal"
+    android:paddingRight="@dimen/cell_padding_horizontal"
+    android:background="@android:color/white"
+    >
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:textSize="18sp"
+        android:textColor="@android:color/black"
+        android:text="Credit Card Balances"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <!-- Total Balance -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#AAAAAA"
+                android:text="Total Balance"
+                />
+            <TextView
+                android:id="@+id/textview_total_balance_amount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                />
+        </LinearLayout>
+
+        <!-- Annualized Interest -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#AAAAAA"
+                android:text="Annualized Interest"
+                />
+            <TextView
+                android:id="@+id/textview_annualized_interest_amount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+        </LinearLayout>
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textSize="12sp"
+        android:textColor="#888888"
+        android:text="Figures are based on partial data."
+        />
+</LinearLayout>
