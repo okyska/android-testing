@@ -9,12 +9,36 @@ android {
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+    testBuildType 'espresso'
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+
+        // We use a special build type for Espresso tests so that we can replace animated resources
+        // with non-animated variations during the tests.
+        espresso {
+            initWith(buildTypes.debug)
+        }
+    }
+}
+
+// Force same version as in the app
+configurations.all {
+    resolutionStrategy {
+        force 'com.android.support:support-unnotaions:25.3.0'
+        force 'com.android.support:support-v4:25.3.0'
+        force 'com.android.support:appcompat-v7:25.3.0'
+        force 'com.android.support:design:25:3:0'
+        force 'com.android.support:support-compat:25.3.0'
+        force 'com.android.support:support-core-ui:25.3.0'
+        force 'com.android.support:recyclerview-v7:25.3.0'
     }
 }
 
@@ -36,4 +60,20 @@ dependencies {
 
     testCompile 'junit:junit:4.12'
     testCompile "org.mockito:mockito-core:2.7.22"
+
+    // AndroidJUnitRunner and JUnit Rules
+    androidTestCompile 'com.android.support.test:runner:1.0.0'
+    andriodTestCompile 'com.android.support.test:rules:1.0.0'
+
+    // Espresso dependencies
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:3.0.0'
+    androidTestCompile 'com.android.support.test.espresso:espresso-contrib:3.0.0'
+    androidTestCompile 'com.android.support.test.espresso:espresso-intents:3.0.0'
+    androidTestCompile 'com.android.support.test.espresso:espresso-web:3.0.0'
+    androidTestCompile 'com.android.support.test.espresso.idling:idling-concurrent:3.0.0'
+
+    // The following Espresso dependency can be either "compile"
+    // or "androidTestCompile", depending on the app's implementation
+    // androidTestCompile for now, might change later
+    androidTestCompile 'com.android.support.test.espresso:espresso-idling-resource:3.0.0'
 }
