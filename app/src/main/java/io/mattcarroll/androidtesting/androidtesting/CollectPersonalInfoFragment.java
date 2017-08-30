@@ -1,4 +1,4 @@
-package io.mattcarroll.androidtesting.signup;
+package io.mattcarroll.androidtesting.androidtesting;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

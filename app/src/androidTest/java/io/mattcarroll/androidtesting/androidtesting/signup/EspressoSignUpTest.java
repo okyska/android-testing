@@ -1,4 +1,4 @@
-package io.mattcarroll.androidtesting.signup;
+package io.mattcarroll.androidtesting.androidtesting.signup;
 
 import android.content.res.Resources;
 import android.support.test.InstrumentationRegistry;
@@ -9,15 +9,14 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import io.mattcarroll.androidtesting.R;
+import io.mattcarroll.androidtesting.androidtesting.SignUpActivity;
 
-import static android.R.attr.button;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static io.mattcarroll.androidtesting.R.id.button_next;
 
 /**
  * Created by  oxana on 8/29/2017.

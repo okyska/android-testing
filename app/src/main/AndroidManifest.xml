@@ -32,7 +32,7 @@
             android:windowSoftInputMode="adjustResize"
             />
         <activity
-            android:name=".signup.SignUpActivity"
+            android:name=".androidtesting.SignUpActivity"
             android:label="@string/title_signup"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize"

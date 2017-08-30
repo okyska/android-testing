@@ -10,7 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import io.mattcarroll.androidtesting.Bus;
 import io.mattcarroll.androidtesting.R;
 import io.mattcarroll.androidtesting.accounts.AccountPersistenceService;
-import io.mattcarroll.androidtesting.signup.SignUpActivity;
+import io.mattcarroll.androidtesting.androidtesting.SignUpActivity;
 
 /**
  * Launch-point for a login screen that offers login via email/password.

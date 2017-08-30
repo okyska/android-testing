@@ -1,4 +1,4 @@
-package io.mattcarroll.androidtesting.signup;
+package io.mattcarroll.androidtesting.androidtesting;
 
 import android.app.Activity;
 import android.content.Context;
@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import io.mattcarroll.androidtesting.BuildConfig;
 import io.mattcarroll.androidtesting.Bus;
 import io.mattcarroll.androidtesting.R;
 
