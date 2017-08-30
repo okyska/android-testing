@@ -57,9 +57,9 @@ public class EspressoSignInTest {
     @Test
     public void userSignInPersonalInfoVerify() {
         onView(withId(R.id.edittext_email))
-                .perform(typeText("@"));
+                .perform(typeText("@@@@@@@@@@@@"));
         onView(withId(R.id.edittext_password))
-                .perform(typeText("22345"));
+                .perform(typeText("12345"));
         onView(withId(R.id.button_sign_in))
                 .perform(click());
         onView(withId(R.id.textview_no_accounts))
@@ -87,7 +87,8 @@ public class EspressoSignInTest {
                 .check(matches(hasErrorText("This password is too short")));
 
     }
-    //add account before
+    //add link account before test, but after this you can't remove account actually and
+    //you can see relativelayout_account_view_container page any userSignIn
     @Test
     public void userSignInPersonalInfoVerifyWithAccount() {
         onView(withId(R.id.edittext_email))
@@ -99,4 +100,7 @@ public class EspressoSignInTest {
         onView(withId(R.id.relativelayout_account_view_container))
                 .check(matches(isDisplayed()));
     }
+
+
+
 }
