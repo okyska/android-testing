@@ -1,4 +1,4 @@
-package io.mattcarroll.androidtesting.androidtesting.signin;
+package io.mattcarroll.androidtesting.signin;
 
 import android.content.res.Resources;
 import android.support.test.InstrumentationRegistry;

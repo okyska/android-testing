@@ -1,4 +1,4 @@
-package io.mattcarroll.androidtesting.androidtesting.signup;
+package io.mattcarroll.androidtesting.signup;
 
 import android.content.res.Resources;
 import android.support.test.InstrumentationRegistry;
