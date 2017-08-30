@@ -1,7 +1,10 @@
 package io.mattcarroll.androidtesting.signup;
 
+import android.content.res.Resources;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -25,6 +28,13 @@ public class EspressoSignUpTest {
     public final ActivityTestRule<SignUpActivity> activityRule =
             new ActivityTestRule<>(SignUpActivity.class, false, true);
 
+    private Resources resources;
+
+    @Before
+    public void setup(){
+        resources = InstrumentationRegistry.getTargetContext().getResources();
+    }
+
     @Test
     public void userSignUpPersonalInfoVerifyRequiredFieldsAreRequired(){
         onView(withId(R.id.button_next))
@@ -32,17 +42,17 @@ public class EspressoSignUpTest {
                 .perform(click());
 
         onView(withId(R.id.edittext_first_name))
-                .check(matches(hasErrorText("Required.")));
+                .check(matches(hasErrorText(resources.getString(R.string.input_error_required))));
         onView(withId(R.id.edittext_last_name))
-                .check(matches(hasErrorText("Required.")));
+                .check(matches(hasErrorText(resources.getString(R.string.input_error_required))));
         onView(withId(R.id.edittext_address_line_1))
-                .check(matches(hasErrorText("Required.")));
+                .check(matches(hasErrorText(resources.getString(R.string.input_error_required))));
         onView(withId(R.id.edittext_address_city))
-                .check(matches(hasErrorText("Required.")));
+                .check(matches(hasErrorText(resources.getString(R.string.input_error_required))));
         onView(withId(R.id.edittext_address_state))
-                .check(matches(hasErrorText("Required.")));
+                .check(matches(hasErrorText(resources.getString(R.string.input_error_required))));
         onView(withId(R.id.edittext_address_zip))
-                .check(matches(hasErrorText("Required.")));
+                .check(matches(hasErrorText(resources.getString(R.string.input_error_required))));
     }
 
 
