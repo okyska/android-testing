@@ -75,4 +75,16 @@ public class EspressoSignInTest {
         onView(withId(R.id.edittext_email))
                 .check(matches(hasErrorText("This email address is invalid")));
     }
+    @Test
+    public  void userSignInPersonalInfoVerifyRequiredNoLessFifeElementsInPassword(){
+        onView(withId(R.id.edittext_email))
+                .perform(typeText("@"));
+        onView(withId(R.id.edittext_password))
+                .perform(typeText("1234"));
+        onView(withId(R.id.button_sign_in))
+                .perform(click());
+        onView(withId(R.id.edittext_password))
+                .check(matches(hasErrorText("This password is too short")));
+
+    }
 }
