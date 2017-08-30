@@ -66,4 +66,13 @@ public class EspressoSignInTest {
                .check(matches(isDisplayed()));
 
     }
+    @Test
+    public  void userSignInPersonalInfoVerifyRequiredSymbolInEmailField(){
+        onView(withId(R.id.edittext_email))
+                .perform(typeText("aaaaa"));
+        onView(withId(R.id.button_sign_in))
+                .perform(click());
+        onView(withId(R.id.edittext_email))
+                .check(matches(hasErrorText("This email address is invalid")));
+    }
 }
