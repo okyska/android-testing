@@ -59,7 +59,7 @@ public class EspressoSignInTest {
         onView(withId(R.id.edittext_email))
                 .perform(typeText("@"));
         onView(withId(R.id.edittext_password))
-                .perform(typeText("12345"));
+                .perform(typeText("22345"));
         onView(withId(R.id.button_sign_in))
                 .perform(click());
         onView(withId(R.id.textview_no_accounts))
@@ -86,5 +86,17 @@ public class EspressoSignInTest {
         onView(withId(R.id.edittext_password))
                 .check(matches(hasErrorText("This password is too short")));
 
+    }
+    //add account before
+    @Test
+    public void userSignInPersonalInfoVerifyWithAccount() {
+        onView(withId(R.id.edittext_email))
+                .perform(typeText("@"));
+        onView(withId(R.id.edittext_password))
+                .perform(typeText("12345"));
+        onView(withId(R.id.button_sign_in))
+                .perform(click());
+        onView(withId(R.id.relativelayout_account_view_container))
+                .check(matches(isDisplayed()));
     }
 }
