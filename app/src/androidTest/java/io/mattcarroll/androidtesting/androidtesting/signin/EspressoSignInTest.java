@@ -35,13 +35,13 @@ public class EspressoSignInTest {
     public final ActivityTestRule<SplashActivity> activityRule =
             new ActivityTestRule<>(SplashActivity.class, false, true);
 
-//    private Resources resources;
-//
-//    @Before
-//    public void setup(){
-//        resources = InstrumentationRegistry.getTargetContext().getResources();
-//    }
+    private Resources resources;
 
+    @Before
+    public void setup(){
+        resources = InstrumentationRegistry.getTargetContext().getResources();
+    }
+    // test fail because field password is not required field
     @Test
     public void userSignInPersonalInfoVerifyRequiredFieldsAreRequired(){
 
@@ -49,9 +49,9 @@ public class EspressoSignInTest {
                 .perform(click());
 
         onView(withId(R.id.edittext_email))
-                .check(matches(hasErrorText("This field is required")));
+                .check(matches(hasErrorText(resources.getString(R.string.error_field_required))));
         onView(withId(R.id.edittext_password))
-                .check(matches(hasErrorText("This field is required")));
+                .check(matches(hasErrorText(resources.getString(R.string.error_field_required))));
     }
 
     @Test
@@ -73,7 +73,7 @@ public class EspressoSignInTest {
         onView(withId(R.id.button_sign_in))
                 .perform(click());
         onView(withId(R.id.edittext_email))
-                .check(matches(hasErrorText("This email address is invalid")));
+                .check(matches(hasErrorText(resources.getString(R.string.error_invalid_email))));
     }
     @Test
     public  void userSignInPersonalInfoVerifyRequiredNoLessFiveElementsInPassword(){
@@ -84,7 +84,7 @@ public class EspressoSignInTest {
         onView(withId(R.id.button_sign_in))
                 .perform(click());
         onView(withId(R.id.edittext_password))
-                .check(matches(hasErrorText("This password is too short")));
+                .check(matches(hasErrorText(resources.getString(R.string.error_invalid_password))));
 
     }
     //add link account before test, but after this you can't remove account actually and
