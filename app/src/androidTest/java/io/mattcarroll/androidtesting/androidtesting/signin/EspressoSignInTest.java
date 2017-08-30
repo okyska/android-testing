@@ -76,7 +76,7 @@ public class EspressoSignInTest {
                 .check(matches(hasErrorText("This email address is invalid")));
     }
     @Test
-    public  void userSignInPersonalInfoVerifyRequiredNoLessFifeElementsInPassword(){
+    public  void userSignInPersonalInfoVerifyRequiredNoLessFiveElementsInPassword(){
         onView(withId(R.id.edittext_email))
                 .perform(typeText("@"));
         onView(withId(R.id.edittext_password))
